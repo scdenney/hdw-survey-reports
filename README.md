@@ -53,6 +53,27 @@ the `_nl` surveys are built. A survey rebuilt with `--rebuild` in the `hdw`
 repository gets a new ID, which must be updated here by hand.
 
 
+## Website
+
+The same reports are served as a password-protected website, deployed on
+Streamlit Community Cloud from this repository (`app.py`). Rogier uses the
+website; the Actions workflow is the fallback and the code home.
+
+Deploy once at https://share.streamlit.io: sign in with GitHub, choose
+`scdenney/hdw-survey-reports`, main file `app.py`, and in Advanced settings
+paste three secrets:
+
+```toml
+APP_PASSWORD = "..."
+QUALTRICS_API_TOKEN = "..."
+QUALTRICS_DATACENTER = "fra1"
+```
+
+Each button fetches the responses live and renders the report in the
+browser; the app stores nothing and never requests the identity columns.
+Buttons for surveys not yet in `surveys.json` (the Dutch instances) are
+greyed out until those surveys exist.
+
 ## Local use
 
 The script runs without the API against an existing export:
