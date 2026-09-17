@@ -79,3 +79,19 @@ class ReportFixtureTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class ClassViewTests(unittest.TestCase):
+    def test_class_view_has_no_free_text_or_identity(self):
+        import classview
+        cfg = report.load_surveys()
+        survey = report.select_survey(cfg, "2", "en", "opener")
+        rows = report.drop_identity(report.finished_rows(report.response_rows(
+            FIXTURE, set(report.content_tags(survey)))), survey["identity_tags"])
+        page = classview.render_class_html(survey, rows, "test")
+        self.assertIn("class=\"slide", page)
+        self.assertNotIn("Fixture", page)
+        for tag in survey.get("free_text", []):
+            for row in rows:
+                if (row.get(tag) or "").strip():
+                    self.assertNotIn(row[tag].strip(), page)

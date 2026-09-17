@@ -164,7 +164,8 @@
           "Universal facts that mean the same thing wherever they travel",
           "Raw material that becomes objective once it is digitized",
           "Not sure yet"
-        ]
+        ],
+        "reveal": "Local artifacts, shaped by the people, places, and instruments that made them"
       },
       {
         "tag": "Q2.C2",
@@ -174,7 +175,8 @@
           "The events leave no traces that could ever be recorded",
           "Computer storage is too limited to keep them",
           "Not sure yet"
-        ]
+        ],
+        "reveal": "Those with the resources to collect them lack the incentive to do so"
       },
       {
         "tag": "Q2.R1",
@@ -185,7 +187,8 @@
           "Which file format has the shortest name?",
           "Whether every reader interprets the passage in the same way",
           "Not sure yet"
-        ]
+        ],
+        "reveal": "Who made this representation, with what tools, and for what purpose?"
       }
     ],
     "arms": [
@@ -242,7 +245,8 @@
           "A transcript of residents describing their own situations in their own words",
           "An experimental study that assigned marital categories to residents",
           "Not sure yet"
-        ]
+        ],
+        "reveal": "A digitized image of printed counts arranged in fixed categories"
       },
       {
         "tag": "Q2.D2",
@@ -253,7 +257,8 @@
           "Its categories were discovered automatically after the census",
           "The page image can already be sorted as a spreadsheet",
           "Not sure yet"
-        ]
+        ],
+        "reveal": "It reports counts within the printed categories for Ede in 1889"
       },
       {
         "tag": "Q2.D3",
@@ -264,7 +269,8 @@
           "Participants were randomly assigned tweets in an experiment",
           "The repository generated every post and its full text",
           "Not sure yet"
-        ]
+        ],
+        "reveal": "The platform generated posts; a researcher collected identifiers and deposited documented files"
       },
       {
         "tag": "Q2.D4",
@@ -275,7 +281,8 @@
           "The dataset contains every post ever published with the hashtag",
           "Every identified post can still be retrieved from the platform",
           "Not sure yet"
-        ]
+        ],
+        "reveal": "The deposited files contain 5,680 tweet IDs collected for this project"
       }
     ],
     "free_text": [
@@ -319,7 +326,8 @@
           "A contact list automatically changes the survey answers",
           "The filename prevents the file from opening",
           "Not sure yet"
-        ]
+        ],
+        "reveal": "Personal data may be exposed to people who do not need access"
       },
       {
         "tag": "Q3.3",
@@ -330,7 +338,8 @@
           "Another copy of the current spreadsheet",
           "A longer filename for notes.txt",
           "Not sure yet"
-        ]
+        ],
+        "reveal": "README.md"
       },
       {
         "tag": "Q3.4",
@@ -341,7 +350,8 @@
           "A file on two devices can never be lost",
           "Version control records changes even when nobody commits them",
           "Not sure yet"
-        ]
+        ],
+        "reveal": "A synced service may copy a deletion, so recovery still needs to be checked"
       }
     ],
     "free_text": [
@@ -368,7 +378,8 @@
           "Delete it after creating a spreadsheet with a newer filename",
           "Move it into outputs because it came from survey software",
           "Not sure yet"
-        ]
+        ],
+        "reveal": "Preserve it unchanged as the raw project copy and work on a separate copy"
       },
       {
         "tag": "Q3.A2",
@@ -379,7 +390,8 @@
           "Rename it contacts_final.xlsx and leave it beside the anonymous responses",
           "Convert it to CSV so it no longer contains personal data",
           "Not sure yet"
-        ]
+        ],
+        "reveal": "Remove it from the shareable folder and document the approved restriction or deletion decision"
       },
       {
         "tag": "Q3.A3",
@@ -390,7 +402,8 @@
           "This folder contains final data and a chart",
           "This project has several files that may be useful",
           "Not sure yet"
-        ]
+        ],
+        "reveal": "This project contains 120 anonymous responses to an October 2026 Leiden library survey of student reading habits, collected online for a service review"
       }
     ],
     "free_text": [

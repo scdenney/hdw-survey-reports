@@ -14,7 +14,9 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 import streamlit as st
+import streamlit.components.v1
 
+import classview
 import report
 
 LABELS = {
@@ -34,8 +36,8 @@ LABELS = {
 
 
 def build_report(module: str, cohort: str, kind: str, token: str, data_center: str,
-                 input_csv: Path | None = None) -> tuple[str, int]:
-    """Return (markdown, n_finished). Mirrors report.main's live path."""
+                 input_csv: Path | None = None) -> tuple[str, int, str]:
+    """Return (markdown, n_finished, class_html). Mirrors report.main's live path."""
     survey = report.select_survey(report.load_surveys(), module, cohort, kind)
     tags = report.content_tags(survey)
     identity = survey.get("identity_tags", [])
@@ -54,7 +56,8 @@ def build_report(module: str, cohort: str, kind: str, token: str, data_center: s
             rows = report.drop_identity(
                 report.finished_rows(report.response_rows(csv_path, set(tags))), identity)
         source = f"Qualtrics {survey['survey_id']}"
-    return report.render_markdown(survey, rows, fetched_at, source), len(rows)
+    return (report.render_markdown(survey, rows, fetched_at, source), len(rows),
+            classview.render_class_html(survey, rows, fetched_at))
 
 
 def password_ok() -> bool:
@@ -78,6 +81,9 @@ def main() -> None:
     st.caption("Teaching team only. Each button fetches the current responses from "
                "Qualtrics; nothing is stored here and names are never requested.")
     available = report.load_surveys()
+    view = st.radio("View", ["Class", "Instructor"], horizontal=True,
+                    help="Class: counts only, projectable, opens as a slide page. "
+                         "Instructor: every item plus the free-text answers.")
     cols = st.columns(2)
     choice = None
     for i, cohort in enumerate(("en", "nl")):
@@ -93,15 +99,19 @@ def main() -> None:
     if choice:
         with st.spinner("Fetching responses from Qualtrics…"):
             try:
-                text, n = build_report(*choice, st.secrets["QUALTRICS_API_TOKEN"],
-                                       st.secrets["QUALTRICS_DATACENTER"])
+                text, n, page = build_report(*choice, st.secrets["QUALTRICS_API_TOKEN"],
+                                             st.secrets["QUALTRICS_DATACENTER"])
             except Exception as exc:  # shown to the teacher, not logged with content
                 st.error(f"Could not build the report: {exc}")
                 return
         st.success(f"{n} finished responses")
-        st.download_button("Download as Markdown", text, file_name="report.md")
-        st.markdown(text)
-
+        if view == "Class":
+            st.download_button("Open as full-screen page (download HTML, then open it)",
+                               page, file_name="class-view.html", mime="text/html")
+            st.components.v1.html(page, height=720, scrolling=False)
+        else:
+            st.download_button("Download as Markdown", text, file_name="report.md")
+            st.markdown(text)
 
 if __name__ == "__main__":
     main()
