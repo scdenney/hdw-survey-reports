@@ -1,0 +1,4 @@
+report.md
+*.zip
+__pycache__/
+*.pyc

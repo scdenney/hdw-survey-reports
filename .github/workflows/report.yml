@@ -1,0 +1,49 @@
+name: Survey report
+
+on:
+  workflow_dispatch:
+    inputs:
+      module:
+        description: Module
+        type: choice
+        options: ["1", "2", "3"]
+        required: true
+      cohort:
+        description: Cohort
+        type: choice
+        options: [en, nl]
+        required: true
+      kind:
+        description: Survey
+        type: choice
+        options: [opener, application]
+        required: true
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Offline tests
+        run: python -m unittest discover -s tests -v
+      - name: Build report
+        env:
+          QUALTRICS_API_TOKEN: ${{ secrets.QUALTRICS_API_TOKEN }}
+          QUALTRICS_DATACENTER: ${{ secrets.QUALTRICS_DATACENTER }}
+        run: >
+          python report.py --module "${{ inputs.module }}" --cohort "${{ inputs.cohort }}"
+          --kind "${{ inputs.kind }}" --output report.md
+      - name: Show on the run page
+        run: cat report.md >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: report-m${{ inputs.module }}-${{ inputs.cohort }}-${{ inputs.kind }}-${{ github.run_id }}
+          path: report.md
+          retention-days: 7
