@@ -52,9 +52,6 @@ the English (`en`) surveys exist so far; the Dutch entries are added when
 the `_nl` surveys are built. A survey rebuilt with `--rebuild` in the `hdw`
 repository gets a new ID, which must be updated here by hand.
 
-Module 1 application labels are marked `labels_pending` until the final
-specs land; any answer not in the list is appended to the table as
-"(unlisted)" rather than dropped.
 
 ## Local use
 
