@@ -7,7 +7,9 @@ verbatim, in random order.
 
 Two front ends share one script, `report.py`:
 
-- `app.py`, a small Streamlit site behind a password, one button per survey.
+- `app.py`, a small Streamlit site behind a password at
+  https://hdw-reports.streamlit.app, one button per survey, with a Class view
+  (counts only, projectable) and an Instructor view (plus free text).
 - `.github/workflows/report.yml`, a manual GitHub Actions run with the same
   choices (module, cohort, survey); the report appears on the run page and as
   a seven-day artifact.
