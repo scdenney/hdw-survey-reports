@@ -1,88 +1,40 @@
 # hdw-survey-reports
 
-One-click reports on the in-class Qualtrics surveys of the HDW Data module
-(Leiden University, Humanities in a Digital World). For the two teachers only.
+Reads the in-class Qualtrics surveys of the Data module of *Humanities in a
+Digital World* (Leiden University) and renders a short report for the
+teaching team: a count table per closed item and the free-text answers
+verbatim, in random order.
 
-## Run a report
+Two front ends share one script, `report.py`:
 
-1. Open the Actions tab and choose "Survey report".
-2. Click "Run workflow" and pick the module (1, 2, 3), the cohort (en, nl)
-   and the survey (opener, application).
-3. Open the run once it finishes. The report is on the run page, under the
-   job summary. The same file is attached as an artifact for seven days.
+- `app.py`, a small Streamlit site behind a password, one button per survey.
+- `.github/workflows/report.yml`, a manual GitHub Actions run with the same
+  choices (module, cohort, survey); the report appears on the run page and as
+  a seven-day artifact.
 
-The report gives, for each closed item, a count table in the order the
-survey shows the answers, and for each free-text item every answer verbatim
-in random order. The Module 2 opener also shows its two randomised arms
-side by side.
+## Privacy
 
-## Who sees what
-
-The repository is private, so only its collaborators can run the workflow or
-read a report. Runs use the Qualtrics token stored in the repository
-secrets, whoever clicks the button.
-
-Identity columns (first name, last name, student number) are never
-requested from Qualtrics: the export asks only for the content and
-free-text questions, and the script drops and reports any identity column
-that arrives anyway. Consent items are neither requested nor shown.
-
-There is no suppression of small counts, because the audience is the two
-teachers and not the class. All finished responses are included regardless
-of the aggregate-reuse choice, which governs what is kept after class, not
-same-day teaching use. Nothing response-level is written to git; the report
-exists only on the run page and in the artifact.
-
-## Before the first live run
-
-Two settings in the GitHub UI:
-
-- Settings, Secrets and variables, Actions: add `QUALTRICS_API_TOKEN` and
-  `QUALTRICS_DATACENTER` (value `fra1`).
-- Settings, Actions, General: set artifact and log retention to 7 days, so
-  the seven-day deletion rule for opener responses is enforced by the
-  platform. The workflow also sets `retention-days: 7` on the artifact.
-
-Add the co-teacher as a collaborator under Settings, Collaborators.
+The export asks Qualtrics only for the content questions. Identity columns
+(first name, last name, student number) are never requested, and the script
+drops and flags any that arrive. Consent items are not reported. Nothing
+response-level is stored: the site renders in memory, the workflow writes
+only to the run page and a short-lived artifact, and no report is ever
+committed here.
 
 ## Configuration
 
-`surveys.json` maps `module/cohort/kind` to a survey ID and its items. Only
-the English (`en`) surveys exist so far; the Dutch entries are added when
-the `_nl` surveys are built. A survey rebuilt with `--rebuild` in the `hdw`
-repository gets a new ID, which must be updated here by hand.
-
-
-## Website
-
-The same reports are served as a password-protected website, deployed on
-Streamlit Community Cloud from this repository (`app.py`). Rogier uses the
-website; the Actions workflow is the fallback and the code home.
-
-Deploy once at https://share.streamlit.io: sign in with GitHub, choose
-`scdenney/hdw-survey-reports`, main file `app.py`, and in Advanced settings
-paste three secrets:
-
-```toml
-APP_PASSWORD = "..."
-QUALTRICS_API_TOKEN = "..."
-QUALTRICS_DATACENTER = "fra1"
-```
-
-Each button fetches the responses live and renders the report in the
-browser; the app stores nothing and never requests the identity columns.
-Buttons for surveys not yet in `surveys.json` (the Dutch instances) are
-greyed out until those surveys exist.
+`surveys.json` maps `module/cohort/kind` to a Qualtrics survey ID and its
+items. Credentials are never in the repository: the site reads
+`APP_PASSWORD`, `QUALTRICS_API_TOKEN` and `QUALTRICS_DATACENTER` from its
+secrets, and the workflow reads the last two from repository secrets.
 
 ## Local use
-
-The script runs without the API against an existing export:
 
 ```
 python3 report.py --module 2 --cohort en --kind opener \
   --input-csv tests/fixture_export.csv --output /tmp/report.md
+python3 -m unittest discover -s tests
 ```
 
-`--dry-run` prints the survey and the tags a live run would request, with
-no network call. `python3 -m unittest discover -s tests` checks the renderer
-against the fixture, including that identity values never reach the output.
+`--dry-run` prints what a live run would request, without a network call.
+The fixture is synthetic.
