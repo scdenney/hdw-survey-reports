@@ -1,5 +1,5 @@
 {
-  "_note": "Key is <module>/<cohort>/<kind>. NL entries are added when the NL surveys exist. Survey IDs are bumped by hand after any --rebuild in hdw/data-module/surveys. consent_tags are never requested or reported; identity_tags are never requested and are asserted absent.",
+  "_note": "Key is <module>/<cohort>/<kind>. NL entries copy the EN items until the Dutch surveys are translated; update their labels then. Survey IDs are bumped by hand after any --rebuild in hdw/data-module/surveys. consent_tags are never requested or reported; identity_tags are never requested and are asserted absent.",
   "1/en/opener": {
     "survey_id": "SV_0cB1yWDkAeSPMk6",
     "title": "HDW Data Module 1 -- Survey 1: Attendance opener",
@@ -364,6 +364,421 @@
   "3/en/application": {
     "survey_id": "SV_bp9AtBZd8l3GcMm",
     "title": "HDW Data Module 3 -- Survey 2: Application",
+    "identity_tags": [],
+    "consent_tags": [
+      "Q3.P1"
+    ],
+    "items": [
+      {
+        "tag": "Q3.A1",
+        "title": "Survey_Data_v1.csv: what should happen first?",
+        "labels": [
+          "Preserve it unchanged as the raw project copy and work on a separate copy",
+          "Open it and overwrite values that look inconsistent",
+          "Delete it after creating a spreadsheet with a newer filename",
+          "Move it into outputs because it came from survey software",
+          "Not sure yet"
+        ],
+        "reveal": "Preserve it unchanged as the raw project copy and work on a separate copy"
+      },
+      {
+        "tag": "Q3.A2",
+        "title": "participant_contact_list.xlsx: best first action?",
+        "labels": [
+          "Remove it from the shareable folder and document the approved restriction or deletion decision",
+          "Publish it with the survey data so the project is complete",
+          "Rename it contacts_final.xlsx and leave it beside the anonymous responses",
+          "Convert it to CSV so it no longer contains personal data",
+          "Not sure yet"
+        ],
+        "reveal": "Remove it from the shareable folder and document the approved restriction or deletion decision"
+      },
+      {
+        "tag": "Q3.A3",
+        "title": "Which README opening is most useful?",
+        "labels": [
+          "This project contains 120 anonymous responses to an October 2026 Leiden library survey of student reading habits, collected online for a service review",
+          "This is a project about student reading",
+          "This folder contains final data and a chart",
+          "This project has several files that may be useful",
+          "Not sure yet"
+        ],
+        "reveal": "This project contains 120 anonymous responses to an October 2026 Leiden library survey of student reading habits, collected online for a service review"
+      }
+    ],
+    "free_text": [
+      "Q3.R1",
+      "Q3.R2"
+    ],
+    "free_text_titles": {
+      "Q3.R1": "README sentence: something missing or uncertain",
+      "Q3.R2": "One change to your own Part B folder"
+    }
+  },
+  "1/nl/opener": {
+    "survey_id": "SV_4GGZ94L9qzyLM2y",
+    "title": "HDW Data Module 1 -- Survey 1: Attendance opener (NL)",
+    "identity_tags": [
+      "Q1.N1",
+      "Q1.N2",
+      "Q1.N3"
+    ],
+    "consent_tags": [
+      "Q1.P1",
+      "Q1.P2"
+    ],
+    "items": [
+      {
+        "tag": "Q1.1",
+        "matrix": true,
+        "title": "Is data the research subject or a research tool?",
+        "rows": [
+          "A census dataset used to study migration patterns",
+          "A social media API used to collect posts about an election",
+          "An OCR pipeline used to digitize a newspaper archive",
+          "A survey of reading habits analyzed for its own content",
+          "A spreadsheet of library loan records studied as a source in its own right"
+        ],
+        "labels": [
+          "Research subject",
+          "Research tool"
+        ]
+      },
+      {
+        "tag": "Q1.2",
+        "title": "What does your Media-module map mainly record?",
+        "labels": [
+          "Locations and boundaries",
+          "Names and labels chosen by the maker",
+          "Traces of use (who viewed, edited, shared)",
+          "All of these",
+          "I did not work with a map"
+        ]
+      },
+      {
+        "tag": "Q1.3",
+        "multi": true,
+        "title": "Concerns about that map's data",
+        "labels": [
+          "Privacy of people shown or tracked",
+          "Who owns it and can reuse it",
+          "What it leaves out",
+          "Who it was made for",
+          "No concern",
+          "Not sure"
+        ]
+      },
+      {
+        "tag": "Q1.4a",
+        "title": "Study programme",
+        "labels": [
+          "Humanities (other)",
+          "History",
+          "Literary Studies",
+          "Linguistics",
+          "Media Studies",
+          "Philosophy",
+          "Area Studies",
+          "Other"
+        ]
+      },
+      {
+        "tag": "Q1.4b",
+        "title": "Is your discipline data-driven?",
+        "labels": [
+          "Yes",
+          "No",
+          "Not sure"
+        ]
+      }
+    ],
+    "free_text": [
+      "Q1.Q"
+    ],
+    "free_text_titles": {
+      "Q1.Q": "Questions from students"
+    }
+  },
+  "1/nl/application": {
+    "survey_id": "SV_3WtwK85hnkvdd0G",
+    "title": "HDW Data Module 1 -- Survey 2: Application (NL)",
+    "identity_tags": [],
+    "consent_tags": [
+      "Q1.P1"
+    ],
+    "items": [
+      {
+        "tag": "Q1.A1",
+        "title": "Case 1: which source would you use?",
+        "labels": [
+          "Delpher, the digitized newspaper archive",
+          "A present-day news site's own archive",
+          "Recorded interviews with former migrant workers",
+          "Not sure yet"
+        ]
+      },
+      {
+        "tag": "Q1.A1b",
+        "title": "Case 1: what would your chosen source miss?",
+        "labels": [
+          "Newspapers that were never digitized",
+          "The workers' own words and experiences",
+          "Reporting from before the news site existed",
+          "Nothing important",
+          "Not sure yet"
+        ]
+      },
+      {
+        "tag": "Q1.A2",
+        "title": "Case 2: which source would you use?",
+        "labels": [
+          "Reviews on an online review platform",
+          "Loan records from three public libraries",
+          "Newspaper reviews since 1900",
+          "Not sure yet"
+        ]
+      },
+      {
+        "tag": "Q1.A2b",
+        "title": "Case 2: what would your chosen source miss?",
+        "labels": [
+          "Readers who never post a review",
+          "How the platform ranks and displays reviews",
+          "What readers thought, as opposed to whether they borrowed the book",
+          "Nothing important",
+          "Not sure yet"
+        ]
+      }
+    ],
+    "free_text": [
+      "Q1.L1"
+    ],
+    "free_text_titles": {
+      "Q1.L1": "Data common in your field, and what it leaves out"
+    }
+  },
+  "2/nl/opener": {
+    "survey_id": "SV_1MMFhhn4O7BA9zU",
+    "title": "HDW Data Module 2 -- Survey 1: Attendance opener (NL)",
+    "condition_field": "metadata_condition",
+    "identity_tags": [
+      "Q2.N1",
+      "Q2.N2",
+      "Q2.N3"
+    ],
+    "consent_tags": [
+      "Q2.P1",
+      "Q2.P2"
+    ],
+    "items": [
+      {
+        "tag": "Q2.C1",
+        "title": "Loukissas: data are best understood as",
+        "labels": [
+          "Local artifacts, shaped by the people, places, and instruments that made them",
+          "Universal facts that mean the same thing wherever they travel",
+          "Raw material that becomes objective once it is digitized",
+          "Not sure yet"
+        ],
+        "reveal": "Local artifacts, shaped by the people, places, and instruments that made them"
+      },
+      {
+        "tag": "Q2.C2",
+        "title": "Onuoha: why datasets go missing",
+        "labels": [
+          "Those with the resources to collect them lack the incentive to do so",
+          "The events leave no traces that could ever be recorded",
+          "Computer storage is too limited to keep them",
+          "Not sure yet"
+        ],
+        "reveal": "Those with the resources to collect them lack the incentive to do so"
+      },
+      {
+        "tag": "Q2.R1",
+        "title": "Module 1 to Module 2: which question carries the idea forward?",
+        "labels": [
+          "Who made this representation, with what tools, and for what purpose?",
+          "How many pages can fit on one screen?",
+          "Which file format has the shortest name?",
+          "Whether every reader interprets the passage in the same way",
+          "Not sure yet"
+        ],
+        "reveal": "Who made this representation, with what tools, and for what purpose?"
+      }
+    ],
+    "arms": [
+      {
+        "title": "Most specific description supported by what was shown",
+        "labels": [
+          "A scanned page from a printed Dutch book",
+          "A scanned page from Multatuli's Max Havelaar",
+          "A scanned page from the 1881 fifth edition of Max Havelaar",
+          "An original physical page printed in 1881",
+          "Not sure yet"
+        ],
+        "columns": {
+          "page_only": "Q2.1A",
+          "page_plus_metadata": "Q2.1B"
+        }
+      },
+      {
+        "title": "Confidence in that answer",
+        "labels": [
+          "1 -- not at all confident",
+          "2 -- slightly confident",
+          "3 -- moderately confident",
+          "4 -- confident",
+          "5 -- very confident"
+        ],
+        "columns": {
+          "page_only": "Q2.2A",
+          "page_plus_metadata": "Q2.2B"
+        }
+      }
+    ],
+    "free_text": [
+      "Q2.Q"
+    ],
+    "free_text_titles": {
+      "Q2.Q": "Questions from students"
+    }
+  },
+  "2/nl/application": {
+    "survey_id": "SV_eA39oT31z5EAJ82",
+    "title": "HDW Data Module 2 -- Survey 2: Application (NL)",
+    "identity_tags": [],
+    "consent_tags": [
+      "Q2.P1"
+    ],
+    "items": [
+      {
+        "tag": "Q2.D1",
+        "title": "Census table: which description is best supported?",
+        "labels": [
+          "A digitized image of printed counts arranged in fixed categories",
+          "A born-digital spreadsheet with one row per resident",
+          "A transcript of residents describing their own situations in their own words",
+          "An experimental study that assigned marital categories to residents",
+          "Not sure yet"
+        ],
+        "reveal": "A digitized image of printed counts arranged in fixed categories"
+      },
+      {
+        "tag": "Q2.D2",
+        "title": "Census table: which claim can it support on its own?",
+        "labels": [
+          "It reports counts within the printed categories for Ede in 1889",
+          "It records how each resident described their own circumstances",
+          "Its categories were discovered automatically after the census",
+          "The page image can already be sorted as a spreadsheet",
+          "Not sure yet"
+        ],
+        "reveal": "It reports counts within the printed categories for Ede in 1889"
+      },
+      {
+        "tag": "Q2.D3",
+        "title": "Hashtag archive: which production history fits?",
+        "labels": [
+          "The platform generated posts; a researcher collected identifiers and deposited documented files",
+          "An archive scanned 5,680 printed tweets and used OCR to create identifiers",
+          "Participants were randomly assigned tweets in an experiment",
+          "The repository generated every post and its full text",
+          "Not sure yet"
+        ],
+        "reveal": "The platform generated posts; a researcher collected identifiers and deposited documented files"
+      },
+      {
+        "tag": "Q2.D4",
+        "title": "Hashtag archive: which claim is best supported?",
+        "labels": [
+          "The deposited files contain 5,680 tweet IDs collected for this project",
+          "The archive preserves the complete text of 5,680 posts",
+          "The dataset contains every post ever published with the hashtag",
+          "Every identified post can still be retrieved from the platform",
+          "Not sure yet"
+        ],
+        "reveal": "The deposited files contain 5,680 tweet IDs collected for this project"
+      }
+    ],
+    "free_text": [
+      "Q2.L1"
+    ],
+    "free_text_titles": {
+      "Q2.L1": "Claim-boundary sentences"
+    }
+  },
+  "3/nl/opener": {
+    "survey_id": "SV_eapbrpMFtUIDelg",
+    "title": "HDW Data Module 3 -- Survey 1: Attendance opener (NL)",
+    "identity_tags": [
+      "Q3.N1",
+      "Q3.N2",
+      "Q3.N3"
+    ],
+    "consent_tags": [
+      "Q3.P1",
+      "Q3.P2"
+    ],
+    "items": [
+      {
+        "tag": "Q3.1",
+        "title": "Where do most of your study files live?",
+        "labels": [
+          "Laptop hard drive, with no separate backup",
+          "Laptop hard drive, backed up to an external drive or cloud service",
+          "University cloud storage, such as SURFdrive or OneDrive",
+          "Personal cloud storage, such as Google Drive or Dropbox",
+          "A mix of places without one consistent system",
+          "Somewhere else or I am not sure"
+        ]
+      },
+      {
+        "tag": "Q3.2",
+        "title": "participant_contact_list.xlsx: which problem if shared?",
+        "labels": [
+          "Personal data may be exposed to people who do not need access",
+          "The spreadsheet cannot be stored inside any folder",
+          "A contact list automatically changes the survey answers",
+          "The filename prevents the file from opening",
+          "Not sure yet"
+        ],
+        "reveal": "Personal data may be exposed to people who do not need access"
+      },
+      {
+        "tag": "Q3.3",
+        "title": "Which missing file should carry the data biography into the folder?",
+        "labels": [
+          "README.md",
+          "A second chart",
+          "Another copy of the current spreadsheet",
+          "A longer filename for notes.txt",
+          "Not sure yet"
+        ],
+        "reveal": "README.md"
+      },
+      {
+        "tag": "Q3.4",
+        "title": "Syncing and recovery: which statement is accurate?",
+        "labels": [
+          "A synced service may copy a deletion, so recovery still needs to be checked",
+          "A synced folder always preserves every earlier version",
+          "A file on two devices can never be lost",
+          "Version control records changes even when nobody commits them",
+          "Not sure yet"
+        ],
+        "reveal": "A synced service may copy a deletion, so recovery still needs to be checked"
+      }
+    ],
+    "free_text": [
+      "Q3.Q"
+    ],
+    "free_text_titles": {
+      "Q3.Q": "Questions from students"
+    }
+  },
+  "3/nl/application": {
+    "survey_id": "SV_3khrmgI8VKmaTGe",
+    "title": "HDW Data Module 3 -- Survey 2: Application (NL)",
     "identity_tags": [],
     "consent_tags": [
       "Q3.P1"

@@ -73,8 +73,8 @@ class ReportFixtureTest(unittest.TestCase):
 
     def test_missing_survey_fails_plainly(self):
         with self.assertRaises(SystemExit) as ctx:
-            report.select_survey(report.load_surveys(), "2", "nl", "opener")
-        self.assertIn("No survey configured for 2/nl/opener", str(ctx.exception))
+            report.select_survey(report.load_surveys(), "4", "en", "opener")
+        self.assertIn("No survey configured for 4/en/opener", str(ctx.exception))
 
 
 if __name__ == "__main__":
