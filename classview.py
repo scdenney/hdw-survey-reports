@@ -61,15 +61,26 @@ def render_class_html(survey: dict, rows: list[dict[str, str]], fetched_at: str)
             if item.get("matrix"):
                 cols = report.matrix_columns(rows, tag)
                 row_labels, col_labels = item.get("rows", []), item.get("labels", [])
+                # One stacked bar per statement so five statements fit one screen.
+                colors = (BLUE, ORANGE) + (INK,) * max(0, len(col_labels) - 2)
+                legend = "".join(f'<span class="key"><i style="--c:{c}"></i>{html.escape(l)}</span>'
+                                 for l, c in zip(col_labels, colors))
                 parts = []
                 for index, col in enumerate(cols):
                     statement = row_labels[index] if index < len(row_labels) else col
                     counter = Counter(report._values(rows, col))
                     total = sum(counter.values())
-                    table = [(l, counter.get(l, 0), (100.0 * counter.get(l, 0) / total) if total else 0.0)
-                             for l in col_labels]
-                    parts.append(f'<h3>{html.escape(statement)}</h3>' + _bars(table, None))
-                slides.append(_slide(title, "".join(parts), n, headline))
+                    segs = ""
+                    for label, c in zip(col_labels, colors):
+                        cn = counter.get(label, 0)
+                        cp = (100.0 * cn / total) if total else 0.0
+                        shown = "&lt;5" if 0 < cn < MIN_CELL else f"{cp:.0f}%"
+                        segs += (f'<div class="seg" style="width:{cp:.1f}%;--c:{c}">'
+                                 f'{shown if cn else ""}</div>')
+                    parts.append(f'<div class="row"><div class="label">{html.escape(statement)}</div>'
+                                 f'<div class="stack">{segs}</div></div>')
+                body = f'<div class="legend">{legend}</div><div class="bars">{"".join(parts)}</div>'
+                slides.append(_slide(title, body, n, headline))
                 continue
             table = report.count_table(rows, tag, item.get("labels", []), multi=item.get("multi", False))
             answered = sum(t[1] for t in table)
@@ -78,7 +89,9 @@ def render_class_html(survey: dict, rows: list[dict[str, str]], fetched_at: str)
         for arm in survey.get("arms", []):
             conds = list(arm["columns"].keys())
             table = report.arm_table(rows, arm, field)
-            legend = "".join(f'<span class="key"><i style="--c:{c}"></i>{html.escape(cond.replace("_", " "))}</span>'
+            arm_n = Counter(row.get(field, "") for row in rows)
+            legend = "".join(f'<span class="key"><i style="--c:{c}"></i>{html.escape(cond.replace("_", " "))}'
+                             f' (n={arm_n.get(cond, 0)})</span>'
                              for cond, c in zip(conds, (BLUE, ORANGE)))
             rowsh = []
             for label, cells in table:
@@ -117,6 +130,9 @@ font-family:Fira Sans,Helvetica,Arial,sans-serif}}
 .track{{width:calc(100% - 9vw)}}
 .pair{{display:grid;gap:.3vw}}.pair .track{{height:1.4vw}}.pair .val{{line-height:1.4vw}}
 .row:has(.pair){{margin:.3em 0;font-size:1.6vw}}
+.stack{{display:flex;height:2.6vw;border-radius:4px;overflow:hidden;background:var(--grid)}}
+.seg{{background:var(--c);color:#fff;font-size:1.3vw;line-height:2.6vw;padding-left:.5vw;white-space:nowrap;overflow:hidden}}
+.row:has(.stack){{grid-template-columns:45% 1fr;font-size:1.6vw;margin:.45em 0}}
 .legend{{display:flex;gap:2vw;font-size:1.6vw;margin-bottom:.6em;font-family:Fira Sans,Helvetica,Arial,sans-serif}}
 .key i{{display:inline-block;width:1.2vw;height:1.2vw;background:var(--c);border-radius:3px;margin-right:.5vw;vertical-align:middle}}
 .n{{color:var(--muted);font-size:1.5vw;margin-top:1.4em;font-family:Fira Sans,Helvetica,Arial,sans-serif}}

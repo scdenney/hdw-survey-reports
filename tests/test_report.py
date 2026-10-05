@@ -95,3 +95,21 @@ class ClassViewTests(unittest.TestCase):
             for row in rows:
                 if (row.get(tag) or "").strip():
                     self.assertNotIn(row[tag].strip(), page)
+
+    def test_matrix_is_one_stacked_row_per_statement(self):
+        import classview
+        survey = report.select_survey(report.load_surveys(), "1", "en", "opener")
+        item = survey["items"][0]
+        rows = [{f"{item['tag']}_{i + 1}": item["labels"][(i + k) % 2]
+                 for i in range(len(item["rows"]))} for k in range(12)]
+        page = classview.render_class_html(survey, rows, "test")
+        self.assertEqual(page.count('class="stack"'), len(item["rows"]))
+        self.assertNotIn("<h3>", page)
+
+    def test_arm_legend_shows_n_per_condition(self):
+        import classview
+        survey = report.select_survey(report.load_surveys(), "2", "en", "opener")
+        rows = [{"metadata_condition": "page_only"}] * 6 + [{"metadata_condition": "page_plus_metadata"}] * 7
+        page = classview.render_class_html(survey, rows, "test")
+        self.assertIn("page only (n=6)", page)
+        self.assertIn("page plus metadata (n=7)", page)
