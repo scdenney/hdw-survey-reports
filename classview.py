@@ -85,6 +85,16 @@ def render_class_html(survey: dict, rows: list[dict[str, str]], fetched_at: str)
             table = report.count_table(rows, tag, item.get("labels", []), multi=item.get("multi", False))
             answered = sum(t[1] for t in table)
             slides.append(_slide(title, _bars(table, reveal), answered, headline, bool(reveal)))
+        for group in survey.get("text_groups", []):
+            table, answered = report.text_groups(rows, group["tag"], group["groups"])
+            words = report.word_counts(rows, group["tag"], group.get("min_word", 2))
+            top = max((c for _, c in words), default=1)
+            cloud = "".join(
+                f'<span class="w" style="font-size:{1.1 + 1.9 * c / top:.2f}vw">{html.escape(w)}</span>'
+                for w, c in words)
+            body = (f'<div class="split">{_bars(table, None)}'
+                    f'<div class="cloud">{cloud or "Words appear once two students use them."}</div></div>')
+            slides.append(_slide(group["title"], body, answered, group.get("headline")))
         field = survey.get("condition_field")
         for arm in survey.get("arms", []):
             conds = list(arm["columns"].keys())
@@ -137,6 +147,11 @@ font-family:Fira Sans,Helvetica,Arial,sans-serif}}
 .key i{{display:inline-block;width:1.2vw;height:1.2vw;background:var(--c);border-radius:3px;margin-right:.5vw;vertical-align:middle}}
 .n{{color:var(--muted);font-size:1.5vw;margin-top:1.4em;font-family:Fira Sans,Helvetica,Arial,sans-serif}}
 .hint{{color:var(--muted);font-size:1.3vw}}
+.split{{display:grid;grid-template-columns:58% 1fr;gap:3vw;align-items:center}}
+.split .row{{font-size:1.45vw;margin:.28em 0;grid-template-columns:42% 1fr}}
+.split .track{{height:1.7vw;width:calc(100% - 7vw)}}.split .val{{line-height:1.7vw}}
+.cloud{{line-height:1.45;text-align:center;font-family:Fira Sans,Helvetica,Arial,sans-serif;color:var(--ink)}}
+.cloud .w{{display:inline-block;margin:0 .6vw}}
 .counter{{position:fixed;right:1.5vw;bottom:1vw;color:var(--muted);font-size:1.1vw;font-family:Fira Sans,Helvetica,Arial,sans-serif}}
 """
     js = """

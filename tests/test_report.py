@@ -113,3 +113,13 @@ class ClassViewTests(unittest.TestCase):
         page = classview.render_class_html(survey, rows, "test")
         self.assertIn("page only (n=6)", page)
         self.assertIn("page plus metadata (n=7)", page)
+
+    def test_text_groups_and_word_floor(self):
+        rows = [{"Q1.2b": n} for n in ("Gough Map of Britain", "Old map of Britain",
+                                        "Amsterdam metro", "Something odd", "")]
+        groups = {"Historical maps": [r"gough", r"\bold\b"], "Transport": [r"metro"]}
+        table, n = report.text_groups(rows, "Q1.2b", groups)
+        self.assertEqual(n, 4)
+        self.assertEqual({label: c for label, c, _ in table},
+                         {"Historical maps": 2, "Transport": 1, "Other": 1})
+        self.assertEqual(report.word_counts(rows, "Q1.2b", 2), [("britain", 2)])

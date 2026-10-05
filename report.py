@@ -18,6 +18,7 @@ import csv
 import json
 import os
 import random
+import re
 import sys
 import tempfile
 import time
@@ -131,7 +132,8 @@ def content_tags(survey: dict) -> list[str]:
     for arm in survey.get("arms", []):
         tags.extend(arm["columns"].values())
     tags.extend(survey.get("free_text", []))
-    return tags
+    tags.extend(g["tag"] for g in survey.get("text_groups", []))
+    return list(dict.fromkeys(tags))
 
 
 # ---- Rows -------------------------------------------------------------------
@@ -245,6 +247,40 @@ def free_text(rows: list[dict[str, str]], tag: str) -> list[str]:
     return texts
 
 
+# Short open answers (for example a map's name) are grouped on our side, without any
+# AI service: an answer belongs to every group with a matching keyword pattern, and to
+# "Other" if none matches. The word cloud counts in how many answers a word occurs.
+STOPWORDS = {
+    "the", "and", "for", "with", "from", "that", "this", "map", "maps", "van", "het",
+    "een", "der", "des", "den", "les", "via", "about", "into", "its", "our", "not",
+}
+
+
+def text_groups(rows: list[dict[str, str]], tag: str, groups: dict[str, list[str]]
+                ) -> tuple[list[tuple[str, int, float]], int]:
+    answers = [t.lower() for t in free_text(rows, tag)]
+    compiled = {name: [re.compile(p, re.I) for p in pats] for name, pats in groups.items()}
+    counts = {name: 0 for name in groups}
+    other = 0
+    for answer in answers:
+        hit = [name for name, pats in compiled.items() if any(p.search(answer) for p in pats)]
+        for name in hit:
+            counts[name] += 1
+        other += not hit
+    table = list(counts.items()) + [("Other", other)]
+    n = len(answers)
+    return [(name, c, 100.0 * c / n if n else 0.0) for name, c in table], n
+
+
+def word_counts(rows: list[dict[str, str]], tag: str, min_count: int = 2
+                ) -> list[tuple[str, int]]:
+    counter: Counter = Counter()
+    for answer in free_text(rows, tag):
+        words = {w.lower() for w in re.findall(r"[^\W\d_]{3,}", answer)}
+        counter.update(w for w in words if w not in STOPWORDS)
+    return [(w, c) for w, c in counter.most_common(30) if c >= min_count]
+
+
 # ---- Markdown ---------------------------------------------------------------
 
 def _md_escape(text: str) -> str:
@@ -307,6 +343,22 @@ def render_markdown(survey: dict, rows: list[dict[str, str]], fetched_at: str,
         for label, cells in arm_table(rows, arm, field):
             parts = [f"{cells[c][0]} ({cells[c][1]:.0f}%)" for c in conditions]
             lines.append(f"| {_md_escape(label)} | " + " | ".join(parts) + " |")
+        lines.append("")
+
+    for group in survey.get("text_groups", []):
+        table, n = text_groups(rows, group["tag"], group["groups"])
+        lines.append(f"## {group['title']} – grouped")
+        lines.append("")
+        lines.append(f"{n} answers. An answer can fall in more than one group.")
+        lines.append("")
+        lines.append("| Group | n | % |")
+        lines.append("|---|---:|---:|")
+        for label, c, pct in table:
+            lines.append(f"| {_md_escape(label)} | {c} | {pct:.0f} |")
+        words = word_counts(rows, group["tag"], group.get("min_word", 2))
+        lines.append("")
+        lines.append("Words used by at least {} students: ".format(group.get("min_word", 2))
+                     + (", ".join(f"{w} ({c})" for w, c in words) or "none yet"))
         lines.append("")
 
     for tag in survey.get("free_text", []):
