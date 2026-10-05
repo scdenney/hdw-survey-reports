@@ -209,10 +209,18 @@ def _values(rows: list[dict[str, str]], tag: str, multi: bool = False) -> list[s
     return out
 
 
+MULTI_NOTE = ("% of students who answered. Each could tick more than one answer, "
+              "so the percentages add up to more than 100.")
+
+
 def count_table(rows: list[dict[str, str]], tag: str, labels: list[str],
                 multi: bool = False) -> list[tuple[str, int, float]]:
     counts = Counter(_values(rows, tag, multi))
-    total = sum(counts.values())
+    # A multi-select percentage is the share of students who answered the
+    # item, not of all ticks, so it reads as "x% of you"; the column can
+    # then add up to more than 100.
+    total = (sum(1 for row in rows if _values([row], tag, multi)) if multi
+             else sum(counts.values()))
     ordered = list(labels) + [f"{label} (unlisted)" for label in counts if label not in labels]
     table = []
     for label in ordered:
@@ -378,6 +386,9 @@ def render_markdown(survey: dict, rows: list[dict[str, str]], fetched_at: str,
         lines.append("|---|---:|---:|")
         for label, n, pct in table:
             lines.append(f"| {_md_escape(label)} | {n} | {pct:.0f} |")
+        if item.get("multi"):
+            lines.append("")
+            lines.append(f"_{MULTI_NOTE}_")
         if item.get("labels_pending"):
             lines.append("")
             lines.append("_Labels for this item are provisional; unlisted answers are appended._")

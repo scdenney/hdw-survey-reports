@@ -99,9 +99,15 @@ def render_class_html(survey: dict, rows: list[dict[str, str]], fetched_at: str)
                 body = f'<div class="legend">{legend}</div><div class="bars">{"".join(parts)}</div>'
                 slides.append(_slide(title, body, n, headline))
                 continue
-            table = report.count_table(rows, tag, item.get("labels", []), multi=item.get("multi", False))
-            answered = sum(t[1] for t in table)
-            slides.append(_slide(title, _bars(table, reveal), answered, headline, bool(reveal)))
+            multi = item.get("multi", False)
+            table = report.count_table(rows, tag, item.get("labels", []), multi=multi)
+            if multi:
+                answered = sum(1 for row in rows if report._values([row], tag, True))
+                body = _bars(table, reveal) + f'<p class="note">{html.escape(report.MULTI_NOTE)}</p>'
+            else:
+                answered = sum(t[1] for t in table)
+                body = _bars(table, reveal)
+            slides.append(_slide(title, body, answered, headline, bool(reveal)))
         if previous in placed:
             group_slide(placed[previous])
         for group in survey.get("text_groups", []):
@@ -159,6 +165,7 @@ font-family:Fira Sans,Helvetica,Arial,sans-serif}}
 .key i{{display:inline-block;width:1.2vw;height:1.2vw;background:var(--c);border-radius:3px;margin-right:.5vw;vertical-align:middle}}
 .n{{color:var(--muted);font-size:1.5vw;margin-top:1.4em;font-family:Fira Sans,Helvetica,Arial,sans-serif}}
 .hint{{color:var(--muted);font-size:1.3vw}}
+.note{{color:var(--muted);font-size:1.4vw;margin:.8em 0 0;font-family:Fira Sans,Helvetica,Arial,sans-serif}}
 .split{{display:grid;grid-template-columns:58% 1fr;gap:3vw;align-items:center}}
 .split .row{{font-size:1.45vw;margin:.28em 0;grid-template-columns:42% 1fr}}
 .split .track{{height:1.7vw;width:calc(100% - 7vw)}}.split .val{{line-height:1.7vw}}

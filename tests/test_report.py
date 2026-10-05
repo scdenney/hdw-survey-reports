@@ -56,6 +56,7 @@ class ReportFixtureTest(unittest.TestCase):
         labels = ["Whose names, borders, or languages it uses", "What or who it leaves out", "Something else"]
         table = report.count_table(rows, "Q1.3", labels, multi=True)
         self.assertEqual([t[1] for t in table], [1, 2, 0])
+        self.assertEqual([round(t[2]) for t in table], [50, 100, 0])  # % of the 2 students
 
     def test_arm_table_has_both_conditions(self):
         arm = self.survey["arms"][0]
