@@ -2,15 +2,14 @@
   "_note": "Key is <module>/<cohort>/<kind>. NL entries copy the EN items until the Dutch surveys are translated; update their labels then. Survey IDs are bumped by hand after any --rebuild in hdw/data-module/surveys. consent_tags are never requested or reported; identity_tags are never requested and are asserted absent.",
   "1/en/opener": {
     "survey_id": "SV_0cB1yWDkAeSPMk6",
-    "title": "HDW Data Module 1 -- Survey 1: Attendance opener",
+    "title": "HDW Data Module 1 – Survey 1: Attendance opener",
     "identity_tags": [
       "Q1.N1",
       "Q1.N2",
       "Q1.N3"
     ],
     "consent_tags": [
-      "Q1.P1",
-      "Q1.P2"
+      "Q1.P1"
     ],
     "items": [
       {
@@ -27,54 +26,59 @@
         "labels": [
           "Research subject",
           "Research tool"
-        ]
+        ],
+        "headline": "The same data can be the subject of one project and the tool of another."
       },
       {
         "tag": "Q1.2",
-        "title": "What does your Media-module map mainly record?",
+        "title": "What does your Media map mainly record?",
         "labels": [
-          "Locations and boundaries",
-          "Names and labels chosen by the maker",
-          "Traces of use (who viewed, edited, shared)",
-          "All of these",
-          "I did not work with a map"
-        ]
+          "Places, routes, or boundaries",
+          "Names and labels",
+          "Numbers, such as population or distances",
+          "Connections between people, places, or ideas",
+          "Something else",
+          "I did not do the Media map assignments"
+        ],
+        "headline": "A map records what its maker chose to put on it."
       },
       {
         "tag": "Q1.3",
         "multi": true,
-        "title": "Concerns about that map's data",
+        "title": "What your Media video showed about your map",
         "labels": [
-          "Privacy of people shown or tracked",
-          "Who owns it and can reuse it",
-          "What it leaves out",
-          "Who it was made for",
-          "No concern",
-          "Not sure"
-        ]
+          "Whose names, borders, or languages it uses",
+          "What or who it leaves out",
+          "Who made it, and for whom",
+          "Who can use or change it",
+          "Something else",
+          "I did not make the video"
+        ],
+        "headline": "What a map leaves out is part of its data."
       },
       {
         "tag": "Q1.4a",
-        "title": "Study programme",
+        "title": "What do you study?",
         "labels": [
-          "Humanities (other)",
           "History",
           "Literary Studies",
           "Linguistics",
           "Media Studies",
           "Philosophy",
           "Area Studies",
+          "Another humanities programme",
           "Other"
         ]
       },
       {
         "tag": "Q1.4b",
-        "title": "Is your discipline data-driven?",
+        "title": "Is your field data-driven?",
         "labels": [
           "Yes",
           "No",
-          "Not sure"
-        ]
+          "Not sure yet"
+        ],
+        "headline": "Every field in this room works with data of some kind."
       }
     ],
     "free_text": [
@@ -86,7 +90,7 @@
   },
   "1/en/application": {
     "survey_id": "SV_0cWZNp6ESKZtS0C",
-    "title": "HDW Data Module 1 -- Survey 2: Application",
+    "title": "HDW Data Module 1 – Survey 2: Application",
     "identity_tags": [],
     "consent_tags": [
       "Q1.P1"
@@ -100,7 +104,8 @@
           "A present-day news site's own archive",
           "Recorded interviews with former migrant workers",
           "Not sure yet"
-        ]
+        ],
+        "headline": "Each source can answer a slightly different question."
       },
       {
         "tag": "Q1.A1b",
@@ -111,7 +116,8 @@
           "Reporting from before the news site existed",
           "Nothing important",
           "Not sure yet"
-        ]
+        ],
+        "headline": "Every source misses something. The choice of source decides what."
       },
       {
         "tag": "Q1.A2",
@@ -121,7 +127,8 @@
           "Loan records from three public libraries",
           "Newspaper reviews since 1900",
           "Not sure yet"
-        ]
+        ],
+        "headline": "Reviews show readers who post. Loan records show readers who borrow."
       },
       {
         "tag": "Q1.A2b",
@@ -132,7 +139,8 @@
           "What readers thought, as opposed to whether they borrowed the book",
           "Nothing important",
           "Not sure yet"
-        ]
+        ],
+        "headline": "What a source misses limits what you can claim from it."
       }
     ],
     "free_text": [
@@ -144,7 +152,7 @@
   },
   "2/en/opener": {
     "survey_id": "SV_38BWFtdTXeQU6iO",
-    "title": "HDW Data Module 2 -- Survey 1: Attendance opener",
+    "title": "HDW Data Module 2 – Survey 1: Attendance opener",
     "condition_field": "metadata_condition",
     "identity_tags": [
       "Q2.N1",
@@ -152,8 +160,7 @@
       "Q2.N3"
     ],
     "consent_tags": [
-      "Q2.P1",
-      "Q2.P2"
+      "Q2.P1"
     ],
     "items": [
       {
@@ -209,11 +216,11 @@
       {
         "title": "Confidence in that answer",
         "labels": [
-          "1 -- not at all confident",
-          "2 -- slightly confident",
-          "3 -- moderately confident",
-          "4 -- confident",
-          "5 -- very confident"
+          "1 – not at all confident",
+          "2 – slightly confident",
+          "3 – moderately confident",
+          "4 – confident",
+          "5 – very confident"
         ],
         "columns": {
           "page_only": "Q2.2A",
@@ -230,7 +237,7 @@
   },
   "2/en/application": {
     "survey_id": "SV_1G0hnQnkxXx83ga",
-    "title": "HDW Data Module 2 -- Survey 2: Application",
+    "title": "HDW Data Module 2 – Survey 2: Application",
     "identity_tags": [],
     "consent_tags": [
       "Q2.P1"
