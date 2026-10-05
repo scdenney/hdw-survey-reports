@@ -290,13 +290,65 @@ def text_groups(rows: list[dict[str, str]], tag: str, groups: dict[str, list[str
     return [(name, c, 100.0 * c / n if n else 0.0) for name, c in table], n
 
 
-def word_counts(rows: list[dict[str, str]], tag: str, min_count: int = 2
-                ) -> list[tuple[str, int]]:
+def word_counts(rows: list[dict[str, str]], tag: str, min_count: int = 2,
+                extra_stop: tuple[str, ...] = ()) -> list[tuple[str, int]]:
     counter: Counter = Counter()
+    stop = STOPWORDS | set(extra_stop)
     for answer in free_text(rows, tag):
         words = {w.lower() for w in re.findall(r"[^\W\d_]{3,}", answer)}
-        counter.update(w for w in words if w not in STOPWORDS)
+        counter.update(w for w in words if w not in stop)
     return [(w, c) for w, c in counter.most_common(30) if c >= min_count]
+
+
+def text_coverage(rows: list[dict[str, str]], tag: str, min_count: int = 2,
+                  extra_stop: tuple[str, ...] = ()) -> tuple[int, int, int]:
+    """Who and what is missing: (answered, left blank, words below the cloud's floor)."""
+    answers = [(row.get(tag) or "").strip() for row in rows]
+    answered = sum(1 for a in answers if a)
+    counter: Counter = Counter()
+    stop = STOPWORDS | set(extra_stop)
+    for a in answers:
+        counter.update({w.lower() for w in re.findall(r"[^\W\d_]{3,}", a)} - stop)
+    dropped = sum(1 for c in counter.values() if c < min_count)
+    return answered, len(rows) - answered, dropped
+
+
+# A small topic model (LDA, scikit-learn) beside the hand-made groups, so the class can
+# compare categories a method finds with categories we chose. Fixed seed and sorted
+# input, so the same answers always give the same topics. No AI service.
+DUTCH_STOP = {
+    "de", "het", "een", "en", "van", "in", "op", "met", "voor", "die", "dat", "dit", "zijn",
+    "is", "of", "aan", "als", "ook", "door", "naar", "bij", "uit", "over", "wat", "wie",
+    "hoe", "om", "te", "er", "je", "we", "ze", "niet", "wordt", "worden", "kan", "kunnen",
+    "alles", "iets", "dingen", "ding", "veel", "maar", "meer", "zo", "nog", "deze", "wel",
+}
+
+
+def topic_model(rows: list[dict[str, str]], tag: str, k: int = 3, n_words: int = 5,
+                extra_stop: tuple[str, ...] = (), seed: int = 0
+                ) -> tuple[list[tuple[list[str], float]], int]:
+    """Return ([(top words, % of answers whose main topic it is)], answers used)."""
+    texts = sorted(t.lower() for t in free_text(rows, tag))
+    if len(texts) < max(10, 3 * k):
+        return [], len(texts)
+    from sklearn.decomposition import LatentDirichletAllocation
+    from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS, CountVectorizer
+    stop = sorted(STOPWORDS | DUTCH_STOP | set(ENGLISH_STOP_WORDS) | set(extra_stop))
+    vec = CountVectorizer(token_pattern=r"(?u)\b[^\W\d_]{3,}\b", stop_words=stop, min_df=2)
+    try:
+        counts = vec.fit_transform(texts)
+    except ValueError:  # no word used by two students
+        return [], len(texts)
+    if counts.shape[1] < k:
+        return [], len(texts)
+    lda = LatentDirichletAllocation(n_components=k, random_state=seed,
+                                    learning_method="batch", max_iter=50)
+    main = lda.fit_transform(counts).argmax(axis=1)
+    vocab = vec.get_feature_names_out()
+    topics = [([vocab[j] for j in comp.argsort()[::-1][:n_words]],
+               100.0 * float((main == i).sum()) / len(texts))
+              for i, comp in enumerate(lda.components_)]
+    return sorted(topics, key=lambda t: -t[1]), len(texts)
 
 
 # ---- Markdown ---------------------------------------------------------------
@@ -329,11 +381,28 @@ def render_markdown(survey: dict, rows: list[dict[str, str]], fetched_at: str,
         lines.append("|---|---:|---:|")
         for label, c, pct in table:
             lines.append(f"| {_md_escape(label)} | {c} | {pct:.0f} |")
-        words = word_counts(rows, group["tag"], group.get("min_word", 2))
+        stop = tuple(group.get("stopwords", []))
+        words = word_counts(rows, group["tag"], group.get("min_word", 2), stop)
         lines.append("")
         lines.append("Words used by at least {} students: ".format(group.get("min_word", 2))
                      + (", ".join(f"{w} ({c})" for w, c in words) or "none yet"))
+        answered, blank, dropped = text_coverage(rows, group["tag"], group.get("min_word", 2), stop)
         lines.append("")
+        lines.append(f"Who and what is missing: {answered} of {len(rows)} answered, {blank} left "
+                     f"it blank, and {dropped} words used by fewer than "
+                     f"{group.get('min_word', 2)} students are not in the cloud.")
+        lines.append("")
+        if group.get("topics"):
+            topics, used = topic_model(rows, group["tag"], group["topics"].get("k", 3),
+                                       extra_stop=stop)
+            lines.append(f"### Topic model (LDA, {group['topics'].get('k', 3)} topics, fixed seed)")
+            lines.append("")
+            if topics:
+                for i, (words_, share) in enumerate(topics, 1):
+                    lines.append(f"{i}. {', '.join(words_)} – main topic for {share:.0f}% of answers")
+            else:
+                lines.append("_Too few answers, or too few shared words, for a topic model._")
+            lines.append("")
 
     def emit_free(tag: str) -> None:
         title = survey.get("free_text_titles", {}).get(tag, tag)
@@ -353,7 +422,7 @@ def render_markdown(survey: dict, rows: list[dict[str, str]], fetched_at: str,
             if group["tag"] in survey.get("free_text", []):
                 emit_free(group["tag"])
 
-    previous = None
+    previous = "start"  # a text group with "after": "start" comes before the first item
     for item in survey.get("items", []):
         emit_placed(previous)
         tag, title = item["tag"], item.get("title", item["tag"])

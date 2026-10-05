@@ -80,14 +80,117 @@
       }
     ],
     "free_text": [
+      "Q1.D",
       "Q1.2b",
       "Q1.Q"
     ],
     "free_text_titles": {
+      "Q1.D": "What is data? (verbatim)",
       "Q1.Q": "Questions from students",
       "Q1.2b": "Media map names"
     },
     "text_groups": [
+      {
+        "tag": "Q1.D",
+        "after": "start",
+        "title": "What is data? Your answers",
+        "min_word": 2,
+        "headline": "Before the definition: what this room said data is.",
+        "coverage": true,
+        "stopwords": [
+          "data",
+          "dat",
+          "datum",
+          "something",
+          "things",
+          "thing",
+          "stuff",
+          "can",
+          "used",
+          "use",
+          "iets",
+          "dingen",
+          "ding",
+          "worden",
+          "gebruikt"
+        ],
+        "groups": {
+          "Numbers and statistics": [
+            "number",
+            "numer",
+            "statistic",
+            "figure",
+            "count",
+            "quantit",
+            "\\bcijfer",
+            "getal",
+            "statistiek",
+            "kwantit",
+            "telling"
+          ],
+          "Information and facts": [
+            "informat",
+            "\\bfact",
+            "knowledge",
+            "\\bfeit",
+            "kennis"
+          ],
+          "Records, sources, evidence": [
+            "record",
+            "evidence",
+            "document",
+            "source",
+            "archiv",
+            "proof",
+            "\\bbron",
+            "bewijs",
+            "registr",
+            "archief",
+            "vastgeleg"
+          ],
+          "Digital and computers": [
+            "digital",
+            "computer",
+            "online",
+            "internet",
+            "database",
+            "\\bfile",
+            "\\bcode",
+            "digita",
+            "bestand",
+            "databank",
+            "software"
+          ],
+          "Collected, measured, observed": [
+            "collect",
+            "gather",
+            "measur",
+            "observ",
+            "survey",
+            "research",
+            "verzamel",
+            "\\bmeet",
+            "\\bgemeten",
+            "onderzoek",
+            "enquête"
+          ],
+          "About people": [
+            "people",
+            "person",
+            "personal",
+            "\\buser",
+            "\\bhuman",
+            "\\bmens",
+            "persoon",
+            "gebruiker"
+          ]
+        },
+        "topics": {
+          "k": 3,
+          "title": "What a topic model found in the same answers",
+          "headline": "The method decides the groups. Compare these with ours."
+        }
+      },
       {
         "tag": "Q1.2b",
         "after": "Q1.2",
@@ -653,14 +756,117 @@
       }
     ],
     "free_text": [
+      "Q1.D",
       "Q1.2b",
       "Q1.Q"
     ],
     "free_text_titles": {
+      "Q1.D": "Wat zijn data? (letterlijk)",
       "Q1.2b": "Namen van de Media-kaarten",
       "Q1.Q": "Vragen van studenten"
     },
     "text_groups": [
+      {
+        "tag": "Q1.D",
+        "after": "start",
+        "title": "Wat zijn data? Jullie antwoorden",
+        "min_word": 2,
+        "headline": "Vóór de definitie: wat deze zaal zei dat data zijn.",
+        "coverage": true,
+        "stopwords": [
+          "data",
+          "dat",
+          "datum",
+          "something",
+          "things",
+          "thing",
+          "stuff",
+          "can",
+          "used",
+          "use",
+          "iets",
+          "dingen",
+          "ding",
+          "worden",
+          "gebruikt"
+        ],
+        "groups": {
+          "Getallen en statistiek": [
+            "number",
+            "numer",
+            "statistic",
+            "figure",
+            "count",
+            "quantit",
+            "\\bcijfer",
+            "getal",
+            "statistiek",
+            "kwantit",
+            "telling"
+          ],
+          "Informatie en feiten": [
+            "informat",
+            "\\bfact",
+            "knowledge",
+            "\\bfeit",
+            "kennis"
+          ],
+          "Registraties, bronnen, bewijs": [
+            "record",
+            "evidence",
+            "document",
+            "source",
+            "archiv",
+            "proof",
+            "\\bbron",
+            "bewijs",
+            "registr",
+            "archief",
+            "vastgeleg"
+          ],
+          "Digitaal en computers": [
+            "digital",
+            "computer",
+            "online",
+            "internet",
+            "database",
+            "\\bfile",
+            "\\bcode",
+            "digita",
+            "bestand",
+            "databank",
+            "software"
+          ],
+          "Verzameld, gemeten, waargenomen": [
+            "collect",
+            "gather",
+            "measur",
+            "observ",
+            "survey",
+            "research",
+            "verzamel",
+            "\\bmeet",
+            "\\bgemeten",
+            "onderzoek",
+            "enquête"
+          ],
+          "Over mensen": [
+            "people",
+            "person",
+            "personal",
+            "\\buser",
+            "\\bhuman",
+            "\\bmens",
+            "persoon",
+            "gebruiker"
+          ]
+        },
+        "topics": {
+          "k": 3,
+          "title": "Wat een topicmodel in dezelfde antwoorden vond",
+          "headline": "De methode bepaalt de groepen. Vergelijk ze met de onze."
+        }
+      },
       {
         "tag": "Q1.2b",
         "after": "Q1.2",

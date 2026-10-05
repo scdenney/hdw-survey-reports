@@ -58,6 +58,17 @@ class ReportFixtureTest(unittest.TestCase):
         self.assertEqual([t[1] for t in table], [1, 2, 0])
         self.assertEqual([round(t[2]) for t in table], [50, 100, 0])  # % of the 2 students
 
+    def test_topic_model_is_repeatable_and_coverage_counts_blanks(self):
+        answers = ["numbers and statistics", "information collected", "facts and numbers",
+                   "records and evidence", "digital information", "evidence in records",
+                   "statistics about numbers", "collected facts", "digital records",
+                   "information and facts", "numbers collected", "evidence and facts", "", " "]
+        rows = [{"Q1.D": a} for a in answers]
+        first = report.topic_model(rows, "Q1.D", k=3)
+        self.assertEqual(first, report.topic_model(rows, "Q1.D", k=3))
+        self.assertEqual(first[1], 12)
+        self.assertEqual(report.text_coverage(rows, "Q1.D")[:2], (12, 2))
+
     def test_arm_table_has_both_conditions(self):
         arm = self.survey["arms"][0]
         table = report.arm_table(self.rows, arm, self.survey["condition_field"])

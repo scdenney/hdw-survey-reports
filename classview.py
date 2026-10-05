@@ -24,12 +24,18 @@ STRINGS = {
            "continue": "→ to continue", "too_few": "Not enough responses yet",
            "too_few_note": "Results appear once at least {m} people have answered.",
            "no_words": "Words appear once two students use them.", "thanks": "Thank you",
-           "other": "Other", "multi": None},
+           "other": "Other", "multi": None,
+           "coverage": "{a} of {n} answered · {b} left it blank · {d} words used by only one student are not shown",
+           "topic_share": "main topic for {s}% of answers",
+           "topic_none": "Too few answers, or too few shared words, for a topic model."},
     "nl": {"answered": "{n} beantwoord", "of_you": "{n} van jullie hebben geantwoord · {at}",
            "continue": "→ om verder te gaan", "too_few": "Nog niet genoeg antwoorden",
            "too_few_note": "Resultaten verschijnen zodra minstens {m} mensen hebben geantwoord.",
            "no_words": "Woorden verschijnen zodra twee studenten ze gebruiken.", "thanks": "Bedankt",
            "other": "Overig",
+           "coverage": "{a} van de {n} antwoordden · {b} lieten het leeg · {d} woorden die maar één student gebruikte, staan er niet in",
+           "topic_share": "hoofdonderwerp van {s}% van de antwoorden",
+           "topic_none": "Te weinig antwoorden, of te weinig gedeelde woorden, voor een topicmodel.",
            "multi": ("% van de studenten die antwoordden. Je kon meer dan één antwoord "
                      "kiezen, dus de percentages tellen op tot meer dan 100.")},
 }
@@ -76,18 +82,31 @@ def render_class_html(survey: dict, rows: list[dict[str, str]], fetched_at: str)
     else:
         def group_slide(group: dict) -> None:
             table, answered = report.text_groups(rows, group["tag"], group["groups"], s["other"])
-            words = report.word_counts(rows, group["tag"], group.get("min_word", 2))
+            stop = tuple(group.get("stopwords", []))
+            words = report.word_counts(rows, group["tag"], group.get("min_word", 2), stop)
             top = max((c for _, c in words), default=1)
             cloud = "".join(
                 f'<span class="w" style="font-size:{1.1 + 1.9 * c / top:.2f}vw">{html.escape(w)}</span>'
                 for w, c in words)
             body = (f'<div class="split">{_bars(table, None)}'
                     f'<div class="cloud">{cloud or s["no_words"]}</div></div>')
+            if group.get("coverage"):
+                a, b, d = report.text_coverage(rows, group["tag"], group.get("min_word", 2), stop)
+                body += f'<p class="note">{html.escape(s["coverage"].format(a=a, n=len(rows), b=b, d=d))}</p>'
             slides.append(_slide(group["title"], body, answered, group.get("headline"), s=s))
+            if group.get("topics"):
+                topics, used = report.topic_model(rows, group["tag"], group["topics"].get("k", 3),
+                                                  extra_stop=stop)
+                cards = "".join(
+                    f'<div class="topic"><div class="tw">{html.escape(" · ".join(w))}</div>'
+                    f'<div class="ts">{html.escape(s["topic_share"].format(s=round(sh)))}</div></div>'
+                    for w, sh in topics) or f'<p class="n">{s["topic_none"]}</p>'
+                slides.append(_slide(group["topics"]["title"], f'<div class="topics">{cards}</div>',
+                                     used, group["topics"].get("headline"), s=s))
 
         # A text group with "after": <tag> follows that item, as on the survey.
         placed = {g["after"]: g for g in survey.get("text_groups", []) if g.get("after")}
-        previous = None
+        previous = "start"  # "after": "start" places a group before the first item
         for item in survey.get("items", []):
             if previous in placed:
                 group_slide(placed[previous])
@@ -190,6 +209,9 @@ font-family:Fira Sans,Helvetica,Arial,sans-serif}}
 .split .track{{height:1.7vw;width:calc(100% - 7vw)}}.split .val{{line-height:1.7vw}}
 .cloud{{line-height:1.45;text-align:center;font-family:Fira Sans,Helvetica,Arial,sans-serif;color:var(--ink)}}
 .cloud .w{{display:inline-block;margin:0 .6vw}}
+.topics{{display:grid;gap:1.2vw}}
+.topic{{background:#eef1f8;border-left:.5vw solid {ORANGE};padding:1vw 1.4vw;border-radius:4px;font-family:Fira Sans,Helvetica,Arial,sans-serif}}
+.tw{{font-size:2.2vw;color:var(--ink)}}.ts{{font-size:1.4vw;color:var(--muted);margin-top:.3em}}
 .counter{{position:fixed;right:1.5vw;bottom:1vw;color:var(--muted);font-size:1.1vw;font-family:Fira Sans,Helvetica,Arial,sans-serif}}
 """
     js = """
