@@ -49,6 +49,14 @@ class ReportFixtureTest(unittest.TestCase):
         self.assertEqual(sum(t[1] for t in table), 11)
         self.assertAlmostEqual(sum(t[2] for t in table), 100.0, places=6)
 
+    def test_multi_select_reads_breakout_columns(self):
+        rows = [{"Q1.3_1": "Whose names, borders, or languages it uses", "Q1.3_2": "What or who it leaves out",
+                 "Q1.3_3": "", "Q1.3_TEXT": "ignored"},
+                {"Q1.3_1": "", "Q1.3_2": "What or who it leaves out", "Q1.3_3": ""}]
+        labels = ["Whose names, borders, or languages it uses", "What or who it leaves out", "Something else"]
+        table = report.count_table(rows, "Q1.3", labels, multi=True)
+        self.assertEqual([t[1] for t in table], [1, 2, 0])
+
     def test_arm_table_has_both_conditions(self):
         arm = self.survey["arms"][0]
         table = report.arm_table(self.rows, arm, self.survey["condition_field"])

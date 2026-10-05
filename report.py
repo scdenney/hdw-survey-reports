@@ -193,6 +193,13 @@ def _values(rows: list[dict[str, str]], tag: str, multi: bool = False) -> list[s
     out = []
     for row in rows:
         cell = (row.get(tag) or "").strip()
+        if multi and not cell:
+            # The live export breaks a multi-select out into one column per
+            # choice (tag_1, tag_2, ...), each holding its label or nothing.
+            # Labels can contain commas, so these are never joined and split.
+            out.extend(row[col].strip() for col in row
+                       if re.fullmatch(re.escape(tag) + r"_\d+", col) and (row[col] or "").strip())
+            continue
         if not cell:
             continue
         if multi:
