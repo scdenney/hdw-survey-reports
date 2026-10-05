@@ -339,7 +339,10 @@ def topic_model(rows: list[dict[str, str]], tag: str, k: int = 3, n_words: int =
         counts = vec.fit_transform(texts)
     except ValueError:  # no word used by two students
         return [], len(texts)
-    if counts.shape[1] < k:
+    # Few shared words cannot carry many topics: fit at most one topic per four shared
+    # words, and none at all below two, rather than show near-identical topics.
+    k = min(k, counts.shape[1] // 4)
+    if k < 2:
         return [], len(texts)
     lda = LatentDirichletAllocation(n_components=k, random_state=seed,
                                     learning_method="batch", max_iter=50)
@@ -348,6 +351,7 @@ def topic_model(rows: list[dict[str, str]], tag: str, k: int = 3, n_words: int =
     topics = [([vocab[j] for j in comp.argsort()[::-1][:n_words]],
                100.0 * float((main == i).sum()) / len(texts))
               for i, comp in enumerate(lda.components_)]
+    topics = [tp for tp in topics if tp[1] > 0]  # a topic that is no answer's main topic
     return sorted(topics, key=lambda t: -t[1]), len(texts)
 
 
