@@ -2,7 +2,7 @@
   "_note": "Key is <module>/<cohort>/<kind>. NL entries copy the EN items until the Dutch surveys are translated; update their labels then. Survey IDs are bumped by hand after any --rebuild in hdw/data-module/surveys. consent_tags are never requested or reported; identity_tags are never requested and are asserted absent.",
   "1/en/opener": {
     "survey_id": "SV_0cB1yWDkAeSPMk6",
-    "title": "HDW Data Module 1 – Survey 1: Attendance opener",
+    "title": "Data Module 1 · Opening survey",
     "identity_tags": [
       "Q1.N1",
       "Q1.N2",
@@ -13,7 +13,7 @@
       {
         "tag": "Q1.1",
         "matrix": true,
-        "title": "Is data the research subject or a research tool?",
+        "title": "Data as subject or as tool?",
         "rows": [
           "A census dataset used to study migration patterns",
           "A social media API used to collect posts about an election",
@@ -43,7 +43,7 @@
       {
         "tag": "Q1.3",
         "multi": true,
-        "title": "What your Media video showed about your map",
+        "title": "What your Media video showed",
         "labels": [
           "Whose names, borders, or languages it uses",
           "What or who it leaves out",
@@ -85,7 +85,7 @@
       "Q1.Q"
     ],
     "free_text_titles": {
-      "Q1.D": "What is data? (verbatim)",
+      "Q1.D": "What is data? (all answers)",
       "Q1.Q": "Questions from students",
       "Q1.2b": "Media map names"
     },
@@ -187,7 +187,7 @@
         },
         "topics": {
           "k": 3,
-          "title": "What a topic model found in the same answers",
+          "title": "The same answers, grouped by a topic model",
           "headline": "The method decides the groups. Compare these with ours."
         }
       },
@@ -308,7 +308,7 @@
   },
   "1/en/application": {
     "survey_id": "SV_0cWZNp6ESKZtS0C",
-    "title": "HDW Data Module 1 – Survey 2: Application",
+    "title": "Data Module 1 · Second survey",
     "identity_tags": [],
     "consent_tags": [],
     "items": [
@@ -338,7 +338,7 @@
       },
       {
         "tag": "Q1.A1c",
-        "title": "Case 1: what a Delpher search could not find",
+        "title": "Case 1: what a Delpher search misses",
         "labels": [
           "Articles where the software misread the word",
           "Articles that used other words for the same people",
@@ -401,12 +401,12 @@
       "Q1.L1"
     ],
     "free_text_titles": {
-      "Q1.L1": "Data common in your field, and what it leaves out"
+      "Q1.L1": "Data in your field, and what is missing"
     }
   },
   "2/en/opener": {
     "survey_id": "SV_38BWFtdTXeQU6iO",
-    "title": "HDW Data Module 2 – Survey 1: Attendance opener",
+    "title": "Data Module 2 · Opening survey",
     "condition_field": "metadata_condition",
     "identity_tags": [
       "Q2.N1",
@@ -441,7 +441,7 @@
       },
       {
         "tag": "Q2.R1",
-        "title": "Module 1 to Module 2: which question carries the idea forward?",
+        "title": "From Module 1: which question carries the idea forward?",
         "labels": [
           "Who made this representation, with what tools, and for what purpose?",
           "How many pages can fit on one screen?",
@@ -454,7 +454,7 @@
     ],
     "arms": [
       {
-        "title": "Most specific description supported by what was shown",
+        "title": "Most specific description you could support",
         "labels": [
           "A scanned page from a printed Dutch book",
           "A scanned page from Multatuli's Max Havelaar",
@@ -468,7 +468,7 @@
         }
       },
       {
-        "title": "Confidence in that answer",
+        "title": "How confident you were",
         "labels": [
           "1 – not at all confident",
           "2 – slightly confident",
@@ -491,7 +491,7 @@
   },
   "2/en/application": {
     "survey_id": "SV_1G0hnQnkxXx83ga",
-    "title": "HDW Data Module 2 – Survey 2: Application",
+    "title": "Data Module 2 · Second survey",
     "identity_tags": [],
     "consent_tags": [
       "Q2.P1"
@@ -550,12 +550,12 @@
       "Q2.L1"
     ],
     "free_text_titles": {
-      "Q2.L1": "Claim-boundary sentences"
+      "Q2.L1": "Your sentences: what is missing, and which claim it limits"
     }
   },
   "3/en/opener": {
     "survey_id": "SV_bIo4MYGFz35yLwa",
-    "title": "HDW Data Module 3 -- Survey 1: Attendance opener",
+    "title": "Data Module 3 · Opening survey",
     "identity_tags": [
       "Q3.N1",
       "Q3.N2",
@@ -580,7 +580,7 @@
       },
       {
         "tag": "Q3.2",
-        "title": "participant_contact_list.xlsx: which problem if shared?",
+        "title": "participant_contact_list.xlsx: the problem if shared",
         "labels": [
           "Personal data may be exposed to people who do not need access",
           "The spreadsheet cannot be stored inside any folder",
@@ -592,7 +592,7 @@
       },
       {
         "tag": "Q3.3",
-        "title": "Which missing file should carry the data biography into the folder?",
+        "title": "Which missing file should hold the data biography?",
         "labels": [
           "README.md",
           "A second chart",
@@ -624,7 +624,7 @@
   },
   "3/en/application": {
     "survey_id": "SV_bp9AtBZd8l3GcMm",
-    "title": "HDW Data Module 3 -- Survey 2: Application",
+    "title": "Data Module 3 · Second survey",
     "identity_tags": [],
     "consent_tags": [
       "Q3.P1"
@@ -678,7 +678,7 @@
   },
   "1/nl/opener": {
     "survey_id": "SV_4GGZ94L9qzyLM2y",
-    "title": "HDW Datamodule 1 – Openingsenquête",
+    "title": "Datamodule 1 · Openingsenquête",
     "identity_tags": [
       "Q1.N1",
       "Q1.N2",
@@ -689,7 +689,7 @@
       {
         "tag": "Q1.1",
         "matrix": true,
-        "title": "Zijn de data onderwerp of instrument van onderzoek?",
+        "title": "Data als onderwerp of als instrument?",
         "rows": [
           "Een volkstellingsdataset waarmee migratiepatronen worden onderzocht",
           "Een social-media-API waarmee berichten over een verkiezing worden verzameld",
@@ -719,7 +719,7 @@
       {
         "tag": "Q1.3",
         "multi": true,
-        "title": "Wat je Media-filmpje liet zien over je kaart",
+        "title": "Wat je Media-filmpje liet zien",
         "labels": [
           "Wiens namen, grenzen of talen de kaart gebruikt",
           "Wat of wie de kaart weglaat",
@@ -762,7 +762,7 @@
       "Q1.Q"
     ],
     "free_text_titles": {
-      "Q1.D": "Wat zijn data? (letterlijk)",
+      "Q1.D": "Wat zijn data? (alle antwoorden)",
       "Q1.2b": "Namen van de Media-kaarten",
       "Q1.Q": "Vragen van studenten"
     },
@@ -772,7 +772,7 @@
         "after": "start",
         "title": "Wat zijn data? Jullie antwoorden",
         "min_word": 2,
-        "headline": "Vóór de definitie: wat deze zaal zei dat data zijn.",
+        "headline": "Vóór de definitie: wat deze zaal onder data verstaat.",
         "coverage": true,
         "stopwords": [
           "data",
@@ -864,7 +864,7 @@
         },
         "topics": {
           "k": 3,
-          "title": "Wat een topicmodel in dezelfde antwoorden vond",
+          "title": "Dezelfde antwoorden, gegroepeerd door een topicmodel",
           "headline": "De methode bepaalt de groepen. Vergelijk ze met de onze."
         }
       },
@@ -1025,7 +1025,7 @@
   },
   "1/nl/application": {
     "survey_id": "SV_3WtwK85hnkvdd0G",
-    "title": "HDW Datamodule 1 – Enquête tijdens het college",
+    "title": "Datamodule 1 · Tweede enquête",
     "identity_tags": [],
     "consent_tags": [],
     "items": [
@@ -1055,7 +1055,7 @@
       },
       {
         "tag": "Q1.A1c",
-        "title": "Casus 1: wat een zoekopdracht in Delpher niet vindt",
+        "title": "Casus 1: wat een zoekopdracht in Delpher mist",
         "labels": [
           "Artikelen waarin de software het woord verkeerd las",
           "Artikelen die andere woorden voor dezelfde mensen gebruikten",
@@ -1063,7 +1063,7 @@
           "Geen, de zoekopdracht vindt elk artikel",
           "Weet ik nog niet"
         ],
-        "headline": "Een zoekopdracht vindt alleen wat gescand is, goed gelezen is en zo genoemd werd.",
+        "headline": "Een zoekopdracht vindt alleen wat gescand, goed gelezen en zo genoemd is.",
         "multi": true
       },
       {
@@ -1075,7 +1075,7 @@
           "Krantenrecensies sinds 1900",
           "Weet ik nog niet"
         ],
-        "headline": "Recensies tonen lezers die iets plaatsen. Uitleengegevens tonen lezers die lenen."
+        "headline": "Recensies tonen lezers die een recensie plaatsen. Uitleengegevens tonen lezers die lenen."
       },
       {
         "tag": "Q1.A2b",
@@ -1118,13 +1118,13 @@
       "Q1.L1"
     ],
     "free_text_titles": {
-      "Q1.L1": "Veelgebruikte data in je vakgebied, en wat erin ontbreekt"
+      "Q1.L1": "Data in je vakgebied, en wat ontbreekt"
     },
     "lang": "nl"
   },
   "2/nl/opener": {
     "survey_id": "SV_1MMFhhn4O7BA9zU",
-    "title": "HDW Datamodule 2 – Openingsenquête",
+    "title": "Datamodule 2 · Openingsenquête",
     "condition_field": "metadata_condition",
     "identity_tags": [
       "Q2.N1",
@@ -1157,7 +1157,7 @@
       },
       {
         "tag": "Q2.R1",
-        "title": "Van Module 1 naar Module 2: welke vraag neemt het idee mee?",
+        "title": "Uit Module 1: welke vraag neemt het idee mee?",
         "labels": [
           "Wie heeft deze representatie gemaakt, met welke instrumenten, en met welk doel?",
           "Hoeveel pagina's passen er op één scherm?",
@@ -1170,7 +1170,7 @@
     ],
     "arms": [
       {
-        "title": "Meest specifieke beschrijving die wordt onderbouwd door wat je zag",
+        "title": "Meest specifieke beschrijving die je kon onderbouwen",
         "labels": [
           "Een gescande pagina uit een gedrukt Nederlands boek",
           "Een gescande pagina uit Max Havelaar van Multatuli",
@@ -1184,7 +1184,7 @@
         }
       },
       {
-        "title": "Zekerheid over dat antwoord",
+        "title": "Hoe zeker je was",
         "labels": [
           "1 – helemaal niet zeker",
           "2 – een beetje zeker",
@@ -1208,7 +1208,7 @@
   },
   "2/nl/application": {
     "survey_id": "SV_eA39oT31z5EAJ82",
-    "title": "HDW Datamodule 2 – Enquête tijdens het college",
+    "title": "Datamodule 2 · Tweede enquête",
     "identity_tags": [],
     "consent_tags": [],
     "items": [
@@ -1265,13 +1265,13 @@
       "Q2.L1"
     ],
     "free_text_titles": {
-      "Q2.L1": "Zinnen die een bewering beperken"
+      "Q2.L1": "Jullie zinnen: wat ontbreekt, en welke bewering het beperkt"
     },
     "lang": "nl"
   },
   "3/nl/opener": {
     "survey_id": "SV_eapbrpMFtUIDelg",
-    "title": "HDW Datamodule 3 – Openingsenquête",
+    "title": "Datamodule 3 · Openingsenquête",
     "identity_tags": [
       "Q3.N1",
       "Q3.N2",
@@ -1293,7 +1293,7 @@
       },
       {
         "tag": "Q3.2",
-        "title": "participant_contact_list.xlsx: welk probleem bij delen?",
+        "title": "participant_contact_list.xlsx: het probleem bij delen",
         "labels": [
           "Persoonsgegevens kunnen terechtkomen bij mensen die er geen toegang toe nodig hebben",
           "De spreadsheet kan in geen enkele map worden opgeslagen",
@@ -1305,7 +1305,7 @@
       },
       {
         "tag": "Q3.3",
-        "title": "Welk ontbrekend bestand brengt de databiografie in de map?",
+        "title": "Welk ontbrekend bestand hoort de databiografie te bevatten?",
         "labels": [
           "README.md",
           "Een tweede grafiek",
@@ -1338,7 +1338,7 @@
   },
   "3/nl/application": {
     "survey_id": "SV_3khrmgI8VKmaTGe",
-    "title": "HDW Datamodule 3 – Enquête tijdens het college",
+    "title": "Datamodule 3 · Tweede enquête",
     "identity_tags": [],
     "consent_tags": [],
     "items": [

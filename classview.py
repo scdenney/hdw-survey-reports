@@ -27,7 +27,7 @@ STRINGS = {
            "other": "Other", "multi": None,
            "coverage": "{a} of {n} answered · {b} left it blank · {d} words used by only one student are not shown",
            "topic_share": "main topic for {s}% of answers",
-           "topic_none": "Too few answers, or too few shared words, for a topic model."},
+           "topic_none": "Not enough shared words yet for a topic model."},
     "nl": {"answered": "{n} beantwoord", "of_you": "{n} van jullie hebben geantwoord · {at}",
            "continue": "→ om verder te gaan", "too_few": "Nog niet genoeg antwoorden",
            "too_few_note": "Resultaten verschijnen zodra minstens {m} mensen hebben geantwoord.",
@@ -35,7 +35,7 @@ STRINGS = {
            "other": "Overig",
            "coverage": "{a} van de {n} antwoordden · {b} lieten het leeg · {d} woorden die maar één student gebruikte, staan er niet in",
            "topic_share": "hoofdonderwerp van {s}% van de antwoorden",
-           "topic_none": "Te weinig antwoorden, of te weinig gedeelde woorden, voor een topicmodel.",
+           "topic_none": "Nog niet genoeg gedeelde woorden voor een topicmodel.",
            "multi": ("% van de studenten die antwoordden. Je kon meer dan één antwoord "
                      "kiezen, dus de percentages tellen op tot meer dan 100.")},
 }
