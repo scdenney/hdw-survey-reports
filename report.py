@@ -302,8 +302,51 @@ def render_markdown(survey: dict, rows: list[dict[str, str]], fetched_at: str,
     lines.append(f"Source: {source}")
     lines.append("")
 
+    # A text group with "after": <tag> is shown right after that item, as on the
+    # survey, together with its verbatim answers; the rest follow the items.
+    groups = survey.get("text_groups", [])
+    placed = {g["after"]: g for g in groups if g.get("after")}
+    shown_free = {g["tag"] for g in placed.values()}
+
+    def emit_group(group: dict) -> None:
+        table, n = text_groups(rows, group["tag"], group["groups"])
+        lines.append(f"## {group['title']} – grouped")
+        lines.append("")
+        lines.append(f"{n} answers. An answer can fall in more than one group.")
+        lines.append("")
+        lines.append("| Group | n | % |")
+        lines.append("|---|---:|---:|")
+        for label, c, pct in table:
+            lines.append(f"| {_md_escape(label)} | {c} | {pct:.0f} |")
+        words = word_counts(rows, group["tag"], group.get("min_word", 2))
+        lines.append("")
+        lines.append("Words used by at least {} students: ".format(group.get("min_word", 2))
+                     + (", ".join(f"{w} ({c})" for w, c in words) or "none yet"))
+        lines.append("")
+
+    def emit_free(tag: str) -> None:
+        title = survey.get("free_text_titles", {}).get(tag, tag)
+        texts = free_text(rows, tag)
+        lines.append(f"## {title}")
+        lines.append("")
+        lines.append(f"{len(texts)} answers, in random order.")
+        lines.append("")
+        for text in texts:
+            lines.append(f"- {text.replace(chr(10), ' ')}")
+        lines.append("")
+
+    def emit_placed(after_tag: str | None) -> None:
+        group = placed.get(after_tag)
+        if group:
+            emit_group(group)
+            if group["tag"] in survey.get("free_text", []):
+                emit_free(group["tag"])
+
+    previous = None
     for item in survey.get("items", []):
+        emit_placed(previous)
         tag, title = item["tag"], item.get("title", item["tag"])
+        previous = tag
         lines.append(f"## {title}")
         lines.append("")
         if item.get("matrix"):
@@ -352,32 +395,14 @@ def render_markdown(survey: dict, rows: list[dict[str, str]], fetched_at: str,
             lines.append(f"| {_md_escape(label)} | " + " | ".join(parts) + " |")
         lines.append("")
 
-    for group in survey.get("text_groups", []):
-        table, n = text_groups(rows, group["tag"], group["groups"])
-        lines.append(f"## {group['title']} – grouped")
-        lines.append("")
-        lines.append(f"{n} answers. An answer can fall in more than one group.")
-        lines.append("")
-        lines.append("| Group | n | % |")
-        lines.append("|---|---:|---:|")
-        for label, c, pct in table:
-            lines.append(f"| {_md_escape(label)} | {c} | {pct:.0f} |")
-        words = word_counts(rows, group["tag"], group.get("min_word", 2))
-        lines.append("")
-        lines.append("Words used by at least {} students: ".format(group.get("min_word", 2))
-                     + (", ".join(f"{w} ({c})" for w, c in words) or "none yet"))
-        lines.append("")
+    emit_placed(previous)
+    for group in groups:
+        if not group.get("after"):
+            emit_group(group)
 
     for tag in survey.get("free_text", []):
-        title = survey.get("free_text_titles", {}).get(tag, tag)
-        texts = free_text(rows, tag)
-        lines.append(f"## {title}")
-        lines.append("")
-        lines.append(f"{len(texts)} answers, in random order.")
-        lines.append("")
-        for text in texts:
-            lines.append(f"- {text.replace(chr(10), ' ')}")
-        lines.append("")
+        if tag not in shown_free:
+            emit_free(tag)
 
     return "\n".join(lines).rstrip() + "\n"
 

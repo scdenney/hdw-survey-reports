@@ -90,6 +90,7 @@
     "text_groups": [
       {
         "tag": "Q1.2b",
+        "after": "Q1.2",
         "title": "Your Media maps",
         "min_word": 2,
         "headline": "Every map in this room was made by someone, for something.",

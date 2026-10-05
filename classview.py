@@ -55,8 +55,25 @@ def render_class_html(survey: dict, rows: list[dict[str, str]], fetched_at: str)
         slides.append('<section class="slide"><h2>Not enough responses yet</h2>'
                       f'<p class="n">Results appear once at least {MIN_CELL} people have answered.</p></section>')
     else:
+        def group_slide(group: dict) -> None:
+            table, answered = report.text_groups(rows, group["tag"], group["groups"])
+            words = report.word_counts(rows, group["tag"], group.get("min_word", 2))
+            top = max((c for _, c in words), default=1)
+            cloud = "".join(
+                f'<span class="w" style="font-size:{1.1 + 1.9 * c / top:.2f}vw">{html.escape(w)}</span>'
+                for w, c in words)
+            body = (f'<div class="split">{_bars(table, None)}'
+                    f'<div class="cloud">{cloud or "Words appear once two students use them."}</div></div>')
+            slides.append(_slide(group["title"], body, answered, group.get("headline")))
+
+        # A text group with "after": <tag> follows that item, as on the survey.
+        placed = {g["after"]: g for g in survey.get("text_groups", []) if g.get("after")}
+        previous = None
         for item in survey.get("items", []):
+            if previous in placed:
+                group_slide(placed[previous])
             tag, title = item["tag"], item.get("title", item["tag"])
+            previous = tag
             headline, reveal = item.get("headline"), item.get("reveal")
             if item.get("matrix"):
                 cols = report.matrix_columns(rows, tag)
@@ -85,16 +102,11 @@ def render_class_html(survey: dict, rows: list[dict[str, str]], fetched_at: str)
             table = report.count_table(rows, tag, item.get("labels", []), multi=item.get("multi", False))
             answered = sum(t[1] for t in table)
             slides.append(_slide(title, _bars(table, reveal), answered, headline, bool(reveal)))
+        if previous in placed:
+            group_slide(placed[previous])
         for group in survey.get("text_groups", []):
-            table, answered = report.text_groups(rows, group["tag"], group["groups"])
-            words = report.word_counts(rows, group["tag"], group.get("min_word", 2))
-            top = max((c for _, c in words), default=1)
-            cloud = "".join(
-                f'<span class="w" style="font-size:{1.1 + 1.9 * c / top:.2f}vw">{html.escape(w)}</span>'
-                for w, c in words)
-            body = (f'<div class="split">{_bars(table, None)}'
-                    f'<div class="cloud">{cloud or "Words appear once two students use them."}</div></div>')
-            slides.append(_slide(group["title"], body, answered, group.get("headline")))
+            if not group.get("after"):
+                group_slide(group)
         field = survey.get("condition_field")
         for arm in survey.get("arms", []):
             conds = list(arm["columns"].keys())
