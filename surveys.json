@@ -575,145 +575,345 @@
   },
   "1/nl/opener": {
     "survey_id": "SV_4GGZ94L9qzyLM2y",
-    "title": "HDW Data Module 1 -- Survey 1: Attendance opener (NL)",
+    "title": "HDW Datamodule 1 – Openingsenquête",
     "identity_tags": [
       "Q1.N1",
       "Q1.N2",
       "Q1.N3"
     ],
-    "consent_tags": [
-      "Q1.P1",
-      "Q1.P2"
-    ],
+    "consent_tags": [],
     "items": [
       {
         "tag": "Q1.1",
         "matrix": true,
-        "title": "Is data the research subject or a research tool?",
+        "title": "Zijn de data onderwerp of instrument van onderzoek?",
         "rows": [
-          "A census dataset used to study migration patterns",
-          "A social media API used to collect posts about an election",
-          "An OCR pipeline used to digitize a newspaper archive",
-          "A survey of reading habits analyzed for its own content",
-          "A spreadsheet of library loan records studied as a source in its own right"
+          "Een volkstellingsdataset waarmee migratiepatronen worden onderzocht",
+          "Een social-media-API waarmee berichten over een verkiezing worden verzameld",
+          "Een OCR-pijplijn waarmee een krantenarchief wordt gedigitaliseerd",
+          "Een enquête over leesgewoonten die om haar eigen inhoud wordt geanalyseerd",
+          "Een spreadsheet met uitleengegevens van een bibliotheek, bestudeerd als bron op zich"
         ],
         "labels": [
-          "Research subject",
-          "Research tool"
-        ]
+          "Onderwerp van onderzoek",
+          "Instrument van onderzoek"
+        ],
+        "headline": "Dezelfde data kunnen in het ene project onderwerp zijn en in het andere instrument."
       },
       {
         "tag": "Q1.2",
-        "title": "What does your Media-module map mainly record?",
+        "title": "Wat legt je Media-kaart vooral vast?",
         "labels": [
-          "Locations and boundaries",
-          "Names and labels chosen by the maker",
-          "Traces of use (who viewed, edited, shared)",
-          "All of these",
-          "I did not work with a map"
-        ]
+          "Plaatsen, routes of grenzen",
+          "Namen en labels",
+          "Getallen, zoals inwonertallen of afstanden",
+          "Verbindingen tussen mensen, plaatsen of ideeën",
+          "Iets anders",
+          "Ik heb de Media-opdrachten met de kaart niet gedaan"
+        ],
+        "headline": "Een kaart legt vast wat de maker erop wilde zetten."
       },
       {
         "tag": "Q1.3",
         "multi": true,
-        "title": "Concerns about that map's data",
+        "title": "Wat je Media-filmpje liet zien over je kaart",
         "labels": [
-          "Privacy of people shown or tracked",
-          "Who owns it and can reuse it",
-          "What it leaves out",
-          "Who it was made for",
-          "No concern",
-          "Not sure"
-        ]
+          "Wiens namen, grenzen of talen de kaart gebruikt",
+          "Wat of wie de kaart weglaat",
+          "Wie de kaart maakte, en voor wie",
+          "Wie de kaart kan gebruiken of veranderen",
+          "Iets anders",
+          "Ik heb het filmpje niet gemaakt"
+        ],
+        "headline": "Wat een kaart weglaat, hoort bij haar data."
       },
       {
         "tag": "Q1.4a",
-        "title": "Study programme",
+        "title": "Wat studeer je?",
         "labels": [
-          "Humanities (other)",
-          "History",
-          "Literary Studies",
-          "Linguistics",
-          "Media Studies",
-          "Philosophy",
-          "Area Studies",
-          "Other"
+          "Geschiedenis",
+          "Literatuurwetenschap",
+          "Taalwetenschap",
+          "Mediastudies",
+          "Wijsbegeerte",
+          "Regiostudies (Area Studies)",
+          "Een andere geesteswetenschappelijke opleiding",
+          "Anders"
         ]
       },
       {
         "tag": "Q1.4b",
-        "title": "Is your discipline data-driven?",
+        "title": "Is jouw vakgebied datagedreven?",
         "labels": [
-          "Yes",
-          "No",
-          "Not sure"
-        ]
+          "Ja",
+          "Nee",
+          "Weet ik nog niet"
+        ],
+        "headline": "Elk vakgebied in deze zaal werkt met een of andere soort data."
       }
     ],
     "free_text": [
+      "Q1.2b",
       "Q1.Q"
     ],
     "free_text_titles": {
-      "Q1.Q": "Questions from students"
-    }
+      "Q1.2b": "Namen van de Media-kaarten",
+      "Q1.Q": "Vragen van studenten"
+    },
+    "text_groups": [
+      {
+        "tag": "Q1.2b",
+        "after": "Q1.2",
+        "title": "Jullie Media-kaarten",
+        "min_word": 2,
+        "headline": "Elke kaart in deze zaal is door iemand gemaakt, met een doel.",
+        "groups": {
+          "Historische kaarten": [
+            "histor",
+            "\\bold\\b",
+            "ancient",
+            "mediev",
+            "centur",
+            "\\broman\\b",
+            "empire",
+            "colonial",
+            "\\bvoc\\b",
+            "gough",
+            "mappa",
+            "portolan",
+            "\\b1[0-9]{3}\\b",
+            "oude",
+            "eeuw",
+            "historisch",
+            "middeleeuw",
+            "romein",
+            "\\brijk\\b",
+            "koloniaal",
+            "\\boud"
+          ],
+          "Fantasie en fictie": [
+            "fantasy",
+            "middle.?earth",
+            "tolkien",
+            "westeros",
+            "narnia",
+            "hogwarts",
+            "fiction",
+            "novel",
+            "\\bgame",
+            "skyrim",
+            "zelda",
+            "pok[eé]mon",
+            "elden",
+            "witcher",
+            "disney",
+            "fantasie",
+            "midden.?aarde",
+            "\\bspel",
+            "fictie"
+          ],
+          "Vervoer en routes": [
+            "metro",
+            "subway",
+            "\\btube\\b",
+            "underground",
+            "train",
+            "rail",
+            "\\bbus",
+            "\\btram",
+            "transport",
+            "route",
+            "airline",
+            "flight",
+            "cycl",
+            "bike",
+            "fiets",
+            "trein",
+            "spoor",
+            "\\bns\\b",
+            "vervoer",
+            "vlieg",
+            "wandel"
+          ],
+          "Landen, grenzen, politiek": [
+            "border",
+            "politic",
+            "countr",
+            "nation",
+            "\\bstates?\\b",
+            "territor",
+            "election",
+            "province",
+            "partition",
+            "\\bwar\\b",
+            "grens",
+            "\\bland",
+            "politiek",
+            "natie",
+            "verkiez",
+            "provincie",
+            "oorlog",
+            "staat"
+          ],
+          "Taal, literatuur, religie": [
+            "language",
+            "dialect",
+            "linguist",
+            "accent",
+            "literat",
+            "religio",
+            "church",
+            "bible",
+            "\\btaal",
+            "myth",
+            "literatuur",
+            "religie",
+            "geloof",
+            "kerk",
+            "bijbel",
+            "mythe"
+          ],
+          "Steden en plaatsen": [
+            "\\bcity",
+            "\\btown",
+            "street",
+            "building",
+            "campus",
+            "neighbo",
+            "urban",
+            "leiden",
+            "amsterdam",
+            "rotterdam",
+            "utrecht",
+            "hague",
+            "den haag",
+            "\\bstad",
+            "museum",
+            "castle",
+            "dorp",
+            "wijk",
+            "straat",
+            "gebouw",
+            "gemeente",
+            "plattegrond",
+            "kasteel"
+          ],
+          "Netwerken en digitale kaarten": [
+            "network",
+            "internet",
+            "social",
+            "digital",
+            "google",
+            "online",
+            "\\bdata\\b",
+            "\\bweb",
+            "netwerk",
+            "digitaal",
+            "sociale"
+          ]
+        }
+      }
+    ],
+    "lang": "nl"
   },
   "1/nl/application": {
     "survey_id": "SV_3WtwK85hnkvdd0G",
-    "title": "HDW Data Module 1 -- Survey 2: Application (NL)",
+    "title": "HDW Datamodule 1 – Enquête tijdens het college",
     "identity_tags": [],
-    "consent_tags": [
-      "Q1.P1"
-    ],
+    "consent_tags": [],
     "items": [
       {
         "tag": "Q1.A1",
-        "title": "Case 1: which source would you use?",
+        "title": "Casus 1: welke bron zou je gebruiken?",
         "labels": [
-          "Delpher, the digitized newspaper archive",
-          "A present-day news site's own archive",
-          "Recorded interviews with former migrant workers",
-          "Not sure yet"
-        ]
+          "Delpher, het archief van gedigitaliseerde kranten",
+          "Het eigen archief van een hedendaagse nieuwssite",
+          "Opgenomen interviews met voormalige arbeidsmigranten",
+          "Weet ik nog niet"
+        ],
+        "headline": "Elke bron beantwoordt een net iets andere vraag."
       },
       {
         "tag": "Q1.A1b",
-        "title": "Case 1: what would your chosen source miss?",
+        "title": "Casus 1: wat ontbreekt er in je bron?",
         "labels": [
-          "Newspapers that were never digitized",
-          "The workers' own words and experiences",
-          "Reporting from before the news site existed",
-          "Nothing important",
-          "Not sure yet"
-        ]
+          "Kranten die nooit zijn gedigitaliseerd",
+          "De eigen woorden en ervaringen van de arbeiders",
+          "Wat kranten destijds schreven",
+          "Berichtgeving van vóór het bestaan van de nieuwssite",
+          "Niets belangrijks",
+          "Weet ik nog niet"
+        ],
+        "headline": "In elke bron ontbreekt iets. De keuze van de bron bepaalt wat."
+      },
+      {
+        "tag": "Q1.A1c",
+        "title": "Casus 1: wat een zoekopdracht in Delpher niet vindt",
+        "labels": [
+          "Artikelen waarin de software het woord verkeerd las",
+          "Artikelen die andere woorden voor dezelfde mensen gebruikten",
+          "Kranten die nooit zijn gescand",
+          "Geen, de zoekopdracht vindt elk artikel",
+          "Weet ik nog niet"
+        ],
+        "headline": "Een zoekopdracht vindt alleen wat gescand is, goed gelezen is en zo genoemd werd.",
+        "multi": true
       },
       {
         "tag": "Q1.A2",
-        "title": "Case 2: which source would you use?",
+        "title": "Casus 2: welke bron zou je gebruiken?",
         "labels": [
-          "Reviews on an online review platform",
-          "Loan records from three public libraries",
-          "Newspaper reviews since 1900",
-          "Not sure yet"
-        ]
+          "Recensies op een online recensieplatform",
+          "Uitleengegevens van drie openbare bibliotheken",
+          "Krantenrecensies sinds 1900",
+          "Weet ik nog niet"
+        ],
+        "headline": "Recensies tonen lezers die iets plaatsen. Uitleengegevens tonen lezers die lenen."
       },
       {
         "tag": "Q1.A2b",
-        "title": "Case 2: what would your chosen source miss?",
+        "title": "Casus 2: wat ontbreekt er in je bron?",
         "labels": [
-          "Readers who never post a review",
-          "How the platform ranks and displays reviews",
-          "What readers thought, as opposed to whether they borrowed the book",
-          "Nothing important",
-          "Not sure yet"
-        ]
+          "Lezers die nooit een recensie plaatsen",
+          "Waarom lezers het boek leenden, of wat ze ervan vonden",
+          "Wat gewone lezers denken",
+          "Niets belangrijks",
+          "Weet ik nog niet"
+        ],
+        "headline": "Wat in een bron ontbreekt, beperkt wat je ermee kunt beweren."
+      },
+      {
+        "tag": "Q1.A2c",
+        "title": "Casus 2: wat het recensieplatform kan onderbouwen",
+        "labels": [
+          "Het laat zien wat mensen die recensies plaatsen over de roman zeggen",
+          "Het laat zien wat lezers nu van de roman vinden",
+          "Het laat zien hoe vaak scholen de roman opgeven",
+          "Weet ik nog niet"
+        ],
+        "headline": "Een bron onderbouwt beweringen over de mensen die haar maakten, niet over iedereen.",
+        "reveal": "Het laat zien wat mensen die recensies plaatsen over de roman zeggen"
+      },
+      {
+        "tag": "Q1.A2d",
+        "title": "Casus 2: een openbare recensie citeren",
+        "labels": [
+          "Ja, openbare berichten mag je vrij citeren",
+          "Nee, nooit",
+          "Dat hangt af van de voorwaarden van het platform en de context",
+          "Weet ik nog niet"
+        ],
+        "headline": "Openbaar is niet hetzelfde als vrij te gebruiken.",
+        "reveal": "Dat hangt af van de voorwaarden van het platform en de context"
       }
     ],
     "free_text": [
       "Q1.L1"
     ],
     "free_text_titles": {
-      "Q1.L1": "Data common in your field, and what it leaves out"
-    }
+      "Q1.L1": "Veelgebruikte data in je vakgebied, en wat erin ontbreekt"
+    },
+    "lang": "nl"
   },
   "2/nl/opener": {
     "survey_id": "SV_1MMFhhn4O7BA9zU",

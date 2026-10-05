@@ -268,11 +268,14 @@ def free_text(rows: list[dict[str, str]], tag: str) -> list[str]:
 STOPWORDS = {
     "the", "and", "for", "with", "from", "that", "this", "map", "maps", "van", "het",
     "een", "der", "des", "den", "les", "via", "about", "into", "its", "our", "not",
+    # Dutch (the Wednesday cohort)
+    "kaart", "kaarten", "met", "voor", "uit", "aan", "die", "dat", "over", "naar",
+    "bij", "ook", "nog", "wat", "hoe", "zijn", "werd", "door", "onder", "tussen",
 }
 
 
-def text_groups(rows: list[dict[str, str]], tag: str, groups: dict[str, list[str]]
-                ) -> tuple[list[tuple[str, int, float]], int]:
+def text_groups(rows: list[dict[str, str]], tag: str, groups: dict[str, list[str]],
+                other_label: str = "Other") -> tuple[list[tuple[str, int, float]], int]:
     answers = [t.lower() for t in free_text(rows, tag)]
     compiled = {name: [re.compile(p, re.I) for p in pats] for name, pats in groups.items()}
     counts = {name: 0 for name in groups}
@@ -282,7 +285,7 @@ def text_groups(rows: list[dict[str, str]], tag: str, groups: dict[str, list[str
         for name in hit:
             counts[name] += 1
         other += not hit
-    table = list(counts.items()) + [("Other", other)]
+    table = list(counts.items()) + [(other_label, other)]
     n = len(answers)
     return [(name, c, 100.0 * c / n if n else 0.0) for name, c in table], n
 

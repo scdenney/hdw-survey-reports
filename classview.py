@@ -16,6 +16,23 @@ from collections import Counter
 import report
 
 MIN_CELL = 5
+
+# Fixed page text by class language; a survey entry with "lang": "nl" (the
+# Wednesday cohort) gets the Dutch strings. Item text comes from surveys.json.
+STRINGS = {
+    "en": {"answered": "{n} answered", "of_you": "{n} of you answered · {at}",
+           "continue": "→ to continue", "too_few": "Not enough responses yet",
+           "too_few_note": "Results appear once at least {m} people have answered.",
+           "no_words": "Words appear once two students use them.", "thanks": "Thank you",
+           "other": "Other", "multi": None},
+    "nl": {"answered": "{n} beantwoord", "of_you": "{n} van jullie hebben geantwoord · {at}",
+           "continue": "→ om verder te gaan", "too_few": "Nog niet genoeg antwoorden",
+           "too_few_note": "Resultaten verschijnen zodra minstens {m} mensen hebben geantwoord.",
+           "no_words": "Woorden verschijnen zodra twee studenten ze gebruiken.", "thanks": "Bedankt",
+           "other": "Overig",
+           "multi": ("% van de studenten die antwoordden. Je kon meer dan één antwoord "
+                     "kiezen, dus de percentages tellen op tot meer dan 100.")},
+}
 BLUE = "#2C4A9E"      # series A / default bar   (validated pair, light surface)
 ORANGE = "#F46E32"    # series B / reveal
 INK = "#001158"       # titles
@@ -39,32 +56,34 @@ def _bars(table: list[tuple[str, int, float]], reveal: str | None,
 
 
 def _slide(title: str, body: str, n: int, headline: str | None = None,
-           has_reveal: bool = False) -> str:
+           has_reveal: bool = False, s: dict = STRINGS["en"]) -> str:
     head = f'<p class="headline">{html.escape(headline)}</p>' if headline else ""
     return (f'<section class="slide" data-reveal="{int(has_reveal)}">'
             f'<h2>{html.escape(title)}</h2>{head}{body}'
-            f'<p class="n">{n} answered</p></section>')
+            f'<p class="n">{s["answered"].format(n=n)}</p></section>')
 
 
 def render_class_html(survey: dict, rows: list[dict[str, str]], fetched_at: str) -> str:
     n = len(rows)
+    s = STRINGS.get(survey.get("lang", "en"), STRINGS["en"])
+    multi_note = s["multi"] or report.MULTI_NOTE
     slides = [f'<section class="slide title"><h1>{html.escape(survey["title"])}</h1>'
-              f'<p class="n">{n} of you answered · {html.escape(fetched_at)}</p>'
-              f'<p class="hint">→ to continue</p></section>']
+              f'<p class="n">{html.escape(s["of_you"].format(n=n, at=fetched_at))}</p>'
+              f'<p class="hint">{s["continue"]}</p></section>']
     if n < MIN_CELL:
-        slides.append('<section class="slide"><h2>Not enough responses yet</h2>'
-                      f'<p class="n">Results appear once at least {MIN_CELL} people have answered.</p></section>')
+        slides.append(f'<section class="slide"><h2>{s["too_few"]}</h2>'
+                      f'<p class="n">{s["too_few_note"].format(m=MIN_CELL)}</p></section>')
     else:
         def group_slide(group: dict) -> None:
-            table, answered = report.text_groups(rows, group["tag"], group["groups"])
+            table, answered = report.text_groups(rows, group["tag"], group["groups"], s["other"])
             words = report.word_counts(rows, group["tag"], group.get("min_word", 2))
             top = max((c for _, c in words), default=1)
             cloud = "".join(
                 f'<span class="w" style="font-size:{1.1 + 1.9 * c / top:.2f}vw">{html.escape(w)}</span>'
                 for w, c in words)
             body = (f'<div class="split">{_bars(table, None)}'
-                    f'<div class="cloud">{cloud or "Words appear once two students use them."}</div></div>')
-            slides.append(_slide(group["title"], body, answered, group.get("headline")))
+                    f'<div class="cloud">{cloud or s["no_words"]}</div></div>')
+            slides.append(_slide(group["title"], body, answered, group.get("headline"), s=s))
 
         # A text group with "after": <tag> follows that item, as on the survey.
         placed = {g["after"]: g for g in survey.get("text_groups", []) if g.get("after")}
@@ -97,17 +116,17 @@ def render_class_html(survey: dict, rows: list[dict[str, str]], fetched_at: str)
                     parts.append(f'<div class="row"><div class="label">{html.escape(statement)}</div>'
                                  f'<div class="stack">{segs}</div></div>')
                 body = f'<div class="legend">{legend}</div><div class="bars">{"".join(parts)}</div>'
-                slides.append(_slide(title, body, n, headline))
+                slides.append(_slide(title, body, n, headline, s=s))
                 continue
             multi = item.get("multi", False)
             table = report.count_table(rows, tag, item.get("labels", []), multi=multi)
             if multi:
                 answered = sum(1 for row in rows if report._values([row], tag, True))
-                body = _bars(table, reveal) + f'<p class="note">{html.escape(report.MULTI_NOTE)}</p>'
+                body = _bars(table, reveal) + f'<p class="note">{html.escape(multi_note)}</p>'
             else:
                 answered = sum(t[1] for t in table)
                 body = _bars(table, reveal)
-            slides.append(_slide(title, body, answered, headline, bool(reveal)))
+            slides.append(_slide(title, body, answered, headline, bool(reveal), s=s))
         if previous in placed:
             group_slide(placed[previous])
         for group in survey.get("text_groups", []):
@@ -134,8 +153,8 @@ def render_class_html(survey: dict, rows: list[dict[str, str]], fetched_at: str)
                 rowsh.append(f'<div class="row"><div class="label">{html.escape(label)}</div>'
                              f'<div class="pair">{bars}</div></div>')
             body = f'<div class="legend">{legend}</div><div class="bars">{"".join(rowsh)}</div>'
-            slides.append(_slide(arm["title"], body, n, arm.get("headline")))
-    slides.append('<section class="slide title"><h1>Thank you</h1></section>')
+            slides.append(_slide(arm["title"], body, n, arm.get("headline"), s=s))
+    slides.append(f'<section class="slide title"><h1>{s["thanks"]}</h1></section>')
 
     css = f"""
 :root{{--ink:{INK};--surface:{SURFACE};--muted:#5b6170;--grid:#e6e6e3}}
