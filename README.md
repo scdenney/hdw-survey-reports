@@ -28,7 +28,10 @@ committed here.
 `surveys.json` maps `module/cohort/kind` to a Qualtrics survey ID and its
 items. Credentials are never in the repository: the site reads
 `APP_PASSWORD`, `QUALTRICS_API_TOKEN` and `QUALTRICS_DATACENTER` from its
-secrets, and the workflow reads the last two from repository secrets.
+secrets, and the workflow reads the last two from repository secrets. If any
+site secret is missing, the app displays which values need to be configured
+instead of failing when the password is submitted. For local app development,
+put these keys in `.streamlit/secrets.toml`; do not commit that file.
 
 ## Local use
 

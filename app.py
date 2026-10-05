@@ -10,14 +10,22 @@ from __future__ import annotations
 
 import hmac
 import tempfile
+from collections.abc import Mapping
 from datetime import datetime, timezone
 from pathlib import Path
 
 import streamlit as st
 import streamlit.components.v1
+from streamlit.errors import StreamlitSecretNotFoundError
 
 import classview
 import report
+
+REQUIRED_SECRETS = (
+    "APP_PASSWORD",
+    "QUALTRICS_API_TOKEN",
+    "QUALTRICS_DATACENTER",
+)
 
 LABELS = {
     ("1", "en", "opener"): "Module 1 – opener (EN)",
@@ -33,6 +41,25 @@ LABELS = {
     ("3", "nl", "opener"): "Module 3 – opener (NL)",
     ("3", "nl", "application"): "Module 3 – in-class (NL)",
 }
+
+
+def load_secrets(secret_store: Mapping[str, str] | None = None
+                 ) -> tuple[dict[str, str], list[str]]:
+    """Return configured secrets and the names of any missing values."""
+    secret_store = st.secrets if secret_store is None else secret_store
+    values = {}
+    missing = []
+    for name in REQUIRED_SECRETS:
+        try:
+            value = secret_store[name]
+        except (KeyError, StreamlitSecretNotFoundError):
+            missing.append(name)
+            continue
+        if not value:
+            missing.append(name)
+        else:
+            values[name] = value
+    return values, missing
 
 
 def build_report(module: str, cohort: str, kind: str, token: str, data_center: str,
@@ -60,12 +87,12 @@ def build_report(module: str, cohort: str, kind: str, token: str, data_center: s
             classview.render_class_html(survey, rows, fetched_at))
 
 
-def password_ok() -> bool:
+def password_ok(app_password: str) -> bool:
     if st.session_state.get("authed"):
         return True
     st.title("HDW survey reports")
     entered = st.text_input("Password", type="password")
-    if entered and hmac.compare_digest(entered, st.secrets["APP_PASSWORD"]):
+    if entered and hmac.compare_digest(entered, app_password):
         st.session_state["authed"] = True
         st.rerun()
     if entered:
@@ -75,7 +102,12 @@ def password_ok() -> bool:
 
 def main() -> None:
     st.set_page_config(page_title="HDW survey reports", page_icon="📋", layout="wide")
-    if not password_ok():
+    secrets, missing = load_secrets()
+    if missing:
+        st.error("App configuration is incomplete. Set these Streamlit secrets: "
+                 + ", ".join(missing))
+        return
+    if not password_ok(secrets["APP_PASSWORD"]):
         return
     st.title("HDW survey reports")
     st.caption("Teaching team only. Each button fetches the current responses from "
@@ -99,8 +131,8 @@ def main() -> None:
     if choice:
         with st.spinner("Fetching responses from Qualtrics…"):
             try:
-                text, n, page = build_report(*choice, st.secrets["QUALTRICS_API_TOKEN"],
-                                             st.secrets["QUALTRICS_DATACENTER"])
+                text, n, page = build_report(*choice, secrets["QUALTRICS_API_TOKEN"],
+                                             secrets["QUALTRICS_DATACENTER"])
             except Exception as exc:  # shown to the teacher, not logged with content
                 st.error(f"Could not build the report: {exc}")
                 return
