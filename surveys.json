@@ -8,9 +8,7 @@
       "Q1.N2",
       "Q1.N3"
     ],
-    "consent_tags": [
-      "Q1.P1"
-    ],
+    "consent_tags": [],
     "items": [
       {
         "tag": "Q1.1",
@@ -82,19 +80,133 @@
       }
     ],
     "free_text": [
+      "Q1.2b",
       "Q1.Q"
     ],
     "free_text_titles": {
-      "Q1.Q": "Questions from students"
-    }
+      "Q1.Q": "Questions from students",
+      "Q1.2b": "Media map names"
+    },
+    "text_groups": [
+      {
+        "tag": "Q1.2b",
+        "title": "Your Media maps",
+        "min_word": 2,
+        "headline": "Every map in this room was made by someone, for something.",
+        "groups": {
+          "Historical maps": [
+            "histor",
+            "\\bold\\b",
+            "ancient",
+            "mediev",
+            "centur",
+            "\\broman\\b",
+            "empire",
+            "colonial",
+            "\\bvoc\\b",
+            "gough",
+            "mappa",
+            "portolan",
+            "\\b1[0-9]{3}\\b",
+            "oude",
+            "eeuw"
+          ],
+          "Fantasy and fiction": [
+            "fantasy",
+            "middle.?earth",
+            "tolkien",
+            "westeros",
+            "narnia",
+            "hogwarts",
+            "fiction",
+            "novel",
+            "\\bgame",
+            "skyrim",
+            "zelda",
+            "pok[eé]mon",
+            "elden",
+            "witcher",
+            "disney"
+          ],
+          "Transport and routes": [
+            "metro",
+            "subway",
+            "\\btube\\b",
+            "underground",
+            "train",
+            "rail",
+            "\\bbus",
+            "\\btram",
+            "transport",
+            "route",
+            "airline",
+            "flight",
+            "cycl",
+            "bike",
+            "fiets"
+          ],
+          "Countries, borders, politics": [
+            "border",
+            "politic",
+            "countr",
+            "nation",
+            "\\bstates?\\b",
+            "territor",
+            "election",
+            "province",
+            "partition",
+            "\\bwar\\b",
+            "grens"
+          ],
+          "Language, literature, religion": [
+            "language",
+            "dialect",
+            "linguist",
+            "accent",
+            "literat",
+            "religio",
+            "church",
+            "bible",
+            "\\btaal",
+            "myth"
+          ],
+          "Cities and places": [
+            "\\bcity",
+            "\\btown",
+            "street",
+            "building",
+            "campus",
+            "neighbo",
+            "urban",
+            "leiden",
+            "amsterdam",
+            "rotterdam",
+            "utrecht",
+            "hague",
+            "den haag",
+            "\\bstad",
+            "museum",
+            "castle"
+          ],
+          "Networks and digital maps": [
+            "network",
+            "internet",
+            "social",
+            "digital",
+            "google",
+            "online",
+            "\\bdata\\b",
+            "\\bweb"
+          ]
+        }
+      }
+    ]
   },
   "1/en/application": {
     "survey_id": "SV_0cWZNp6ESKZtS0C",
     "title": "HDW Data Module 1 – Survey 2: Application",
     "identity_tags": [],
-    "consent_tags": [
-      "Q1.P1"
-    ],
+    "consent_tags": [],
     "items": [
       {
         "tag": "Q1.A1",
@@ -109,15 +221,29 @@
       },
       {
         "tag": "Q1.A1b",
-        "title": "Case 1: what would your chosen source miss?",
+        "title": "Case 1: what is missing from your source?",
         "labels": [
           "Newspapers that were never digitized",
           "The workers' own words and experiences",
+          "What newspapers wrote at the time",
           "Reporting from before the news site existed",
           "Nothing important",
           "Not sure yet"
         ],
-        "headline": "Every source misses something. The choice of source decides what."
+        "headline": "Something is missing from every source. The choice of source decides what."
+      },
+      {
+        "tag": "Q1.A1c",
+        "title": "Case 1: what a Delpher search could not find",
+        "labels": [
+          "Articles where the software misread the word",
+          "Articles that used other words for the same people",
+          "Newspapers that were never scanned",
+          "None, the search finds every article",
+          "Not sure yet"
+        ],
+        "headline": "A search finds only what was scanned, read correctly, and named that way.",
+        "multi": true
       },
       {
         "tag": "Q1.A2",
@@ -132,15 +258,39 @@
       },
       {
         "tag": "Q1.A2b",
-        "title": "Case 2: what would your chosen source miss?",
+        "title": "Case 2: what is missing from your source?",
         "labels": [
           "Readers who never post a review",
-          "How the platform ranks and displays reviews",
-          "What readers thought, as opposed to whether they borrowed the book",
+          "Why readers borrowed the book, or what they thought of it",
+          "What ordinary readers think",
           "Nothing important",
           "Not sure yet"
         ],
-        "headline": "What a source misses limits what you can claim from it."
+        "headline": "What is missing from a source limits what you can claim from it."
+      },
+      {
+        "tag": "Q1.A2c",
+        "title": "Case 2: what the review platform can support",
+        "labels": [
+          "It shows what people who post reviews say about the novel",
+          "It shows what readers today think of the novel",
+          "It shows how often schools assign the novel",
+          "Not sure yet"
+        ],
+        "headline": "A source supports claims about the people who made it, not about everyone.",
+        "reveal": "It shows what people who post reviews say about the novel"
+      },
+      {
+        "tag": "Q1.A2d",
+        "title": "Case 2: quoting a public review",
+        "labels": [
+          "Yes, public posts can be quoted freely",
+          "No, never",
+          "It depends on the platform's terms and the context",
+          "Not sure yet"
+        ],
+        "headline": "Public is not the same as free to use.",
+        "reveal": "It depends on the platform's terms and the context"
       }
     ],
     "free_text": [
