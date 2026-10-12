@@ -179,12 +179,17 @@ def render_class_html(survey: dict, rows: list[dict[str, str]], fetched_at: str)
         head = "".join(f"<th>{html.escape(h)}</th>" for h in view["headers"])
         body_rows = "".join("<tr>" + "".join(f"<td>{html.escape(c)}</td>" for c in r) + "</tr>"
                             for r in view["rows"])
-        record = "".join(f"<p>{html.escape(line)}</p>" for line in report.dataset_record(rows, survey))
+        fields, log = report.dataset_record(rows, survey)
+        record = "".join(f'<p><b>{html.escape(k)}</b> {html.escape(v)}</p>' for k, v in fields)
+        if log:
+            record += (f'<h4>{html.escape(view["changelog_title"])}</h4>'
+                       + "".join(f"<p>{html.escape(e)}</p>" for e in log))
         body = (f'<div class="dataset"><div><p class="caption">{html.escape(view["caption"])}</p>'
                 f'<table class="export"><thead><tr>{head}</tr></thead><tbody>{body_rows}</tbody></table>'
                 f'<p class="note">{html.escape(view["names_note"])}</p></div>'
                 f'<div class="record"><h3>{html.escape(view["record_title"])}</h3>{record}</div></div>')
-        slides.append(f'<section class="slide"><h2>{html.escape(view["title"])}</h2>{body}</section>')
+        foot = f'<p class="note">{html.escape(view["footer"])}</p>' if view.get("footer") else ""
+        slides.append(f'<section class="slide"><h2>{html.escape(view["title"])}</h2>{body}{foot}</section>')
     slides.append(f'<section class="slide title"><h1>{s["thanks"]}</h1></section>')
 
     css = f"""
@@ -233,8 +238,10 @@ font-family:Fira Sans,Helvetica,Arial,sans-serif}}
 .export td:last-child,.export th:last-child{{text-align:center}}
 .record{{background:#eef1f8;border-radius:1vw;padding:1.4vw 1.8vw;font-size:1.5vw;color:var(--ink)}}
 .record h3{{margin:0 0 .5em;color:var(--ink);font-weight:bold;font-size:2vw}}
+.record{{font-family:"IBM Plex Mono",Menlo,Consolas,monospace;font-size:1.25vw}}
 .record h3::before{{content:"\\25CF";color:{ORANGE};margin-right:.5vw}}
-.record p{{margin:.4em 0;line-height:1.3}}
+.record h4{{margin:.9em 0 .3em;color:var(--ink);font-size:1.4vw}}
+.record p{{margin:.25em 0;line-height:1.3}}.record b{{color:{ORANGE};font-weight:600}}
 .counter{{position:fixed;right:1.5vw;bottom:1vw;color:var(--muted);font-size:1.1vw;font-family:Fira Sans,Helvetica,Arial,sans-serif}}
 """
     js = """

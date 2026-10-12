@@ -242,7 +242,17 @@ def arm_table(rows: list[dict[str, str]], arm: dict, field: str
     for condition, tag in arm["columns"].items():
         subset = [row for row in rows if (row.get(field) or "").strip() == condition]
         per_arm[condition] = Counter(_values(subset, tag))
-    labels = list(arm["labels"])
+    # Optional "bins": [[shown label, [answer labels]], ...] merges answers into one bar.
+    bins = arm.get("bins")
+    if bins:
+        for condition, counter in per_arm.items():
+            merged = Counter()
+            for shown, members in bins:
+                merged[shown] = sum(counter.get(m, 0) for m in members)
+            binned = {m for _, members in bins for m in members}
+            merged.update({k: v for k, v in counter.items() if k not in binned})
+            per_arm[condition] = merged
+    labels = [shown for shown, _ in bins] if bins else list(arm["labels"])
     for counter in per_arm.values():
         labels.extend(l for l in counter if l not in labels)
     table = []
@@ -257,8 +267,9 @@ def arm_table(rows: list[dict[str, str]], arm: dict, field: str
 
 
 
-def dataset_record(rows: list[dict[str, str]], survey: dict) -> list[str]:
-    """Fill the source-record lines of a ``dataset_view`` from the rows' own metadata.
+def dataset_record(rows: list[dict[str, str]], survey: dict
+                   ) -> tuple[list[tuple[str, str]], list[str]]:
+    """Fill a ``dataset_view``'s README fields and changelog from the rows' own metadata.
 
     Only counts and the collection window are used, never a response.
     """
@@ -272,13 +283,16 @@ def dataset_record(rows: list[dict[str, str]], survey: dict) -> list[str]:
                 pass
     field = survey.get("condition_field") or ""
     arms = Counter((row.get(field) or "").strip() for row in rows)
-    values = {"n": len(rows), "date": "–", "start": "–", "end": "–",
+    values = {"n": len(rows), "date": "–", "start": "–", "end": "–", "iso": "",
               "page_only": arms.get("page_only", 0),
               "page_plus_metadata": arms.get("page_plus_metadata", 0)}
     if times:
         first, last = min(times), max(times)
-        values.update(date=f"{first.day} {first:%b %Y}", start=f"{first:%H:%M}", end=f"{last:%H:%M}")
-    return [line.format(**values) for line in view["record"]]
+        values.update(date=f"{first.day} {first:%b %Y}", start=f"{first:%H:%M}", end=f"{last:%H:%M}",
+                      iso=f"{last:%Y-%m-%d}")
+    fields = [(label, value.format(**values)) for label, value in view["record"]]
+    log = [line.format(**values).strip() for line in view.get("changelog", [])]
+    return fields, log
 
 
 def free_text(rows: list[dict[str, str]], tag: str) -> list[str]:
@@ -520,10 +534,20 @@ def render_markdown(survey: dict, rows: list[dict[str, str]], fetched_at: str,
         lines.append("")
         lines.append(view["names_note"])
         lines.append("")
+        fields, log = dataset_record(rows, survey)
         lines.append(f"**{view['record_title']}**")
         lines.append("")
-        for line in dataset_record(rows, survey):
-            lines.append(_md_escape(line))
+        for label, value in fields:
+            lines.append(f"{_md_escape(label)}: {_md_escape(value)}  ")
+        lines.append("")
+        if log:
+            lines.append(f"**{view['changelog_title']}**")
+            lines.append("")
+            for entry in log:
+                lines.append(f"{_md_escape(entry)}  ")
+            lines.append("")
+        if view.get("footer"):
+            lines.append(f"_{view['footer']}_")
             lines.append("")
 
     emit_placed(previous)

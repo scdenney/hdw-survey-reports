@@ -481,7 +481,29 @@
           "page_only": "Q2.2A",
           "page_plus_metadata": "Q2.2B"
         },
-        "headline": "Did the source record change your confidence?"
+        "headline": "Did the source record change your confidence?",
+        "bins": [
+          [
+            "Not confident (1–2)",
+            [
+              "1 – not at all confident",
+              "2 – slightly confident"
+            ]
+          ],
+          [
+            "Moderately confident (3)",
+            [
+              "3 – moderately confident"
+            ]
+          ],
+          [
+            "Confident (4–5)",
+            [
+              "4 – confident",
+              "5 – very confident"
+            ]
+          ]
+        ]
       }
     ],
     "free_text": [
@@ -495,60 +517,90 @@
       "caption": "Six made-up rows, in the shape of today's export",
       "headers": [
         "Response",
-        "Version",
+        "Group",
         "Answer",
         "Confidence"
       ],
       "rows": [
         [
           "R_3kQ8",
-          "page only",
+          "control",
           "printed Dutch book",
           "4"
         ],
         [
           "R_9xT2",
-          "page + record",
+          "experimental",
           "1881 fifth edition",
           "5"
         ],
         [
           "R_1bF7",
-          "page only",
+          "control",
           "Max Havelaar",
           "3"
         ],
         [
           "R_7mW4",
-          "page + record",
+          "experimental",
           "original 1881 page",
           "4"
         ],
         [
           "R_5cA9",
-          "page only",
+          "control",
           "not sure yet",
           "1"
         ],
         [
           "R_2nH6",
-          "page + record",
+          "experimental",
           "1881 fifth edition",
           "4"
         ]
       ],
-      "names_note": "Names and student numbers are in the export too. We remove them before any analysis.",
-      "record_title": "Source record",
+      "names_note": "The control group saw the page only. The experimental group saw the page with its source record. Names and student numbers are in the export too. We remove them before any analysis.",
+      "record_title": "README",
       "record": [
-        "HDW Data Module 2, opening survey, English cohort.",
-        "Collected {date}, {start}–{end}, on Leiden University's Qualtrics (servers in Frankfurt).",
-        "Made by the teaching team. Each of you saw one of two versions, chosen at random: {page_only} page only, {page_plus_metadata} page plus record.",
-        "{n} finished responses, linked to your names until the end of the course."
-      ]
+        [
+          "Title",
+          "Data Module 2 opening survey, English cohort"
+        ],
+        [
+          "Collected",
+          "{date}, {start}–{end}, on Leiden University's Qualtrics (servers in Frankfurt)"
+        ],
+        [
+          "Made by",
+          "the teaching team"
+        ],
+        [
+          "Design",
+          "an experiment with two groups assigned at random: {page_only} control, {page_plus_metadata} experimental"
+        ],
+        [
+          "Rows",
+          "{n} finished responses"
+        ],
+        [
+          "Limits",
+          "this class, on this day"
+        ],
+        [
+          "Access",
+          "linked to your names until the end of the course"
+        ]
+      ],
+      "changelog_title": "Changelog",
+      "changelog": [
+        "{iso} Export downloaded from Qualtrics.",
+        "{iso} Names and student numbers removed."
+      ],
+      "footer": "Module 3 is about writing these two documents for your own project."
     },
     "condition_labels": {
-      "page_only": "page only",
-      "page_plus_metadata": "page + source record"
+      "page_only": "control, page only",
+      "page_plus_metadata": "experimental, page + source record"
     }
   },
   "2/en/application": {
@@ -1259,7 +1311,29 @@
           "page_only": "Q2.2A",
           "page_plus_metadata": "Q2.2B"
         },
-        "headline": "Veranderde de bronbeschrijving hoe zeker je was?"
+        "headline": "Veranderde de bronbeschrijving hoe zeker je was?",
+        "bins": [
+          [
+            "Niet zeker (1–2)",
+            [
+              "1 – helemaal niet zeker",
+              "2 – een beetje zeker"
+            ]
+          ],
+          [
+            "Redelijk zeker (3)",
+            [
+              "3 – redelijk zeker"
+            ]
+          ],
+          [
+            "Zeker (4–5)",
+            [
+              "4 – zeker",
+              "5 – heel zeker"
+            ]
+          ]
+        ]
       }
     ],
     "free_text": [
@@ -1274,60 +1348,90 @@
       "caption": "Zes verzonnen rijen, in de vorm van de export van vandaag",
       "headers": [
         "Antwoord",
-        "Versie",
+        "Groep",
         "Keuze",
         "Zekerheid"
       ],
       "rows": [
         [
           "R_3kQ8",
-          "alleen pagina",
+          "controle",
           "gedrukt Nederlands boek",
           "4"
         ],
         [
           "R_9xT2",
-          "pagina + bron",
+          "experimenteel",
           "vijfde druk, 1881",
           "5"
         ],
         [
           "R_1bF7",
-          "alleen pagina",
+          "controle",
           "Max Havelaar",
           "3"
         ],
         [
           "R_7mW4",
-          "pagina + bron",
+          "experimenteel",
           "originele pagina, 1881",
           "4"
         ],
         [
           "R_5cA9",
-          "alleen pagina",
+          "controle",
           "weet ik nog niet",
           "1"
         ],
         [
           "R_2nH6",
-          "pagina + bron",
+          "experimenteel",
           "vijfde druk, 1881",
           "4"
         ]
       ],
-      "names_note": "Namen en studentnummers staan ook in de export. Die halen we weg vóór elke analyse.",
-      "record_title": "Bronbeschrijving",
+      "names_note": "De controlegroep zag alleen de pagina. De experimentele groep zag de pagina met de bronbeschrijving. Namen en studentnummers staan ook in de export. Die halen we weg vóór elke analyse.",
+      "record_title": "README",
       "record": [
-        "HDW Datamodule 2, openingsenquête, Nederlandstalig cohort.",
-        "Verzameld op {date}, {start}–{end}, in de Qualtrics-omgeving van de Universiteit Leiden (servers in Frankfurt).",
-        "Gemaakt door het docententeam. Ieder van jullie zag een van twee versies, willekeurig toegewezen: {page_only} alleen pagina, {page_plus_metadata} pagina met bronbeschrijving.",
-        "{n} afgeronde antwoorden, gekoppeld aan jullie naam tot het einde van de cursus."
-      ]
+        [
+          "Titel",
+          "Openingsenquête Datamodule 2, Nederlandstalig cohort"
+        ],
+        [
+          "Verzameld",
+          "{date}, {start}–{end}, in de Qualtrics-omgeving van de Universiteit Leiden (servers in Frankfurt)"
+        ],
+        [
+          "Gemaakt door",
+          "het docententeam"
+        ],
+        [
+          "Opzet",
+          "een experiment met twee willekeurig toegewezen groepen: {page_only} controle, {page_plus_metadata} experimenteel"
+        ],
+        [
+          "Rijen",
+          "{n} afgeronde antwoorden"
+        ],
+        [
+          "Beperkingen",
+          "deze groep, op deze dag"
+        ],
+        [
+          "Toegang",
+          "gekoppeld aan jullie naam tot het einde van de cursus"
+        ]
+      ],
+      "changelog_title": "Changelog",
+      "changelog": [
+        "{iso} Export gedownload uit Qualtrics.",
+        "{iso} Namen en studentnummers verwijderd."
+      ],
+      "footer": "In Datamodule 3 schrijf je deze twee documenten voor je eigen project."
     },
     "condition_labels": {
-      "page_only": "alleen pagina",
-      "page_plus_metadata": "pagina + bronbeschrijving"
+      "page_only": "controle, alleen pagina",
+      "page_plus_metadata": "experimenteel, pagina + bronbeschrijving"
     }
   },
   "2/nl/application": {
