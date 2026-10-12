@@ -465,7 +465,8 @@
         "columns": {
           "page_only": "Q2.1A",
           "page_plus_metadata": "Q2.1B"
-        }
+        },
+        "headline": "Half of you saw a source record under the page. What did it let you say that the page alone did not?"
       },
       {
         "title": "How confident you were",
@@ -479,7 +480,8 @@
         "columns": {
           "page_only": "Q2.2A",
           "page_plus_metadata": "Q2.2B"
-        }
+        },
+        "headline": "Did the source record change your confidence?"
       }
     ],
     "free_text": [
@@ -1237,7 +1239,8 @@
         "columns": {
           "page_only": "Q2.1A",
           "page_plus_metadata": "Q2.1B"
-        }
+        },
+        "headline": "De helft van jullie zag een bronbeschrijving onder de pagina. Wat kon je daardoor zeggen dat je met alleen de pagina niet kon?"
       },
       {
         "title": "Hoe zeker je was",
@@ -1251,7 +1254,8 @@
         "columns": {
           "page_only": "Q2.2A",
           "page_plus_metadata": "Q2.2B"
-        }
+        },
+        "headline": "Veranderde de bronbeschrijving hoe zeker je was?"
       }
     ],
     "free_text": [
