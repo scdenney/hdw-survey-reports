@@ -134,6 +134,22 @@ class ClassViewTests(unittest.TestCase):
         self.assertIn("page only (n=6)", page)
         self.assertIn("page plus metadata (n=7)", page)
 
+    def test_dataset_view_uses_made_up_rows_and_live_counts_only(self):
+        import classview
+        survey = report.select_survey(report.load_surveys(), "2", "en", "opener")
+        rows = ([{"metadata_condition": "page_only", "StartDate": "2026-10-12 15:16:02",
+                  "RecordedDate": "2026-10-12 15:21:40", "ResponseId": "R_realrow01"}] * 6
+                + [{"metadata_condition": "page_plus_metadata", "StartDate": "2026-10-12 15:15:30",
+                    "RecordedDate": "2026-10-12 15:24:10"}] * 7)
+        page = classview.render_class_html(survey, rows, "test")
+        self.assertIn("Your answers are now data", page)
+        self.assertIn("12 Oct 2026, 15:15–15:24", page)
+        self.assertIn("6 page only, 7 page plus record", page)
+        self.assertNotIn("R_realrow01", page)
+        text = report.render_markdown(survey, rows, "test", "test")
+        self.assertIn("| R_3kQ8 | page only | printed Dutch book | 4 |", text)
+        self.assertIn("13 finished responses", text)
+
     def test_text_groups_and_word_floor(self):
         rows = [{"Q1.2b": n} for n in ("Gough Map of Britain", "Old map of Britain",
                                         "Amsterdam metro", "Something odd", "")]

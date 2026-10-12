@@ -487,6 +487,62 @@
     ],
     "free_text_titles": {
       "Q2.Q": "Questions from students"
+    },
+    "dataset_view": {
+      "title": "Your answers are now data",
+      "caption": "Six made-up rows, in the shape of today's export",
+      "headers": [
+        "Response",
+        "Version",
+        "Answer",
+        "Confidence"
+      ],
+      "rows": [
+        [
+          "R_3kQ8",
+          "page only",
+          "printed Dutch book",
+          "4"
+        ],
+        [
+          "R_9xT2",
+          "page + record",
+          "1881 fifth edition",
+          "5"
+        ],
+        [
+          "R_1bF7",
+          "page only",
+          "Max Havelaar",
+          "3"
+        ],
+        [
+          "R_7mW4",
+          "page + record",
+          "original 1881 page",
+          "4"
+        ],
+        [
+          "R_5cA9",
+          "page only",
+          "not sure yet",
+          "1"
+        ],
+        [
+          "R_2nH6",
+          "page + record",
+          "1881 fifth edition",
+          "4"
+        ]
+      ],
+      "names_note": "Names and student numbers are in the export too. We remove them before any analysis.",
+      "record_title": "Source record",
+      "record": [
+        "HDW Data Module 2, opening survey, English cohort.",
+        "Collected {date}, {start}–{end}, on Leiden University's Qualtrics (servers in Frankfurt).",
+        "Made by the teaching team. Each of you saw one of two versions, chosen at random: {page_only} page only, {page_plus_metadata} page plus record.",
+        "{n} finished responses, linked to your names until the end of the course."
+      ]
     }
   },
   "2/en/application": {
@@ -1204,7 +1260,63 @@
     "free_text_titles": {
       "Q2.Q": "Vragen van studenten"
     },
-    "lang": "nl"
+    "lang": "nl",
+    "dataset_view": {
+      "title": "Jullie antwoorden zijn nu data",
+      "caption": "Zes verzonnen rijen, in de vorm van de export van vandaag",
+      "headers": [
+        "Antwoord",
+        "Versie",
+        "Keuze",
+        "Zekerheid"
+      ],
+      "rows": [
+        [
+          "R_3kQ8",
+          "alleen pagina",
+          "gedrukt Nederlands boek",
+          "4"
+        ],
+        [
+          "R_9xT2",
+          "pagina + bron",
+          "vijfde druk, 1881",
+          "5"
+        ],
+        [
+          "R_1bF7",
+          "alleen pagina",
+          "Max Havelaar",
+          "3"
+        ],
+        [
+          "R_7mW4",
+          "pagina + bron",
+          "originele pagina, 1881",
+          "4"
+        ],
+        [
+          "R_5cA9",
+          "alleen pagina",
+          "weet ik nog niet",
+          "1"
+        ],
+        [
+          "R_2nH6",
+          "pagina + bron",
+          "vijfde druk, 1881",
+          "4"
+        ]
+      ],
+      "names_note": "Namen en studentnummers staan ook in de export. Die halen we weg vóór elke analyse.",
+      "record_title": "Bronbeschrijving",
+      "record": [
+        "HDW Datamodule 2, openingsenquête, Nederlandstalig cohort.",
+        "Verzameld op {date}, {start}–{end}, in de Qualtrics-omgeving van de Universiteit Leiden (servers in Frankfurt).",
+        "Gemaakt door het docententeam. Ieder van jullie zag een van twee versies, willekeurig toegewezen: {page_only} alleen pagina, {page_plus_metadata} pagina met bronbeschrijving.",
+        "{n} afgeronde antwoorden, gekoppeld aan jullie naam tot het einde van de cursus."
+      ]
+    }
   },
   "2/nl/application": {
     "survey_id": "SV_eA39oT31z5EAJ82",

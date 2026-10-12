@@ -173,6 +173,17 @@ def render_class_html(survey: dict, rows: list[dict[str, str]], fetched_at: str)
                              f'<div class="pair">{bars}</div></div>')
             body = f'<div class="legend">{legend}</div><div class="bars">{"".join(rowsh)}</div>'
             slides.append(_slide(arm["title"], body, n, arm.get("headline"), s=s))
+    view = survey.get("dataset_view")
+    if view and n >= MIN_CELL:
+        head = "".join(f"<th>{html.escape(h)}</th>" for h in view["headers"])
+        body_rows = "".join("<tr>" + "".join(f"<td>{html.escape(c)}</td>" for c in r) + "</tr>"
+                            for r in view["rows"])
+        record = "".join(f"<p>{html.escape(line)}</p>" for line in report.dataset_record(rows, survey))
+        body = (f'<div class="dataset"><div><p class="caption">{html.escape(view["caption"])}</p>'
+                f'<table class="export"><thead><tr>{head}</tr></thead><tbody>{body_rows}</tbody></table>'
+                f'<p class="note">{html.escape(view["names_note"])}</p></div>'
+                f'<div class="record"><h3>{html.escape(view["record_title"])}</h3>{record}</div></div>')
+        slides.append(f'<section class="slide"><h2>{html.escape(view["title"])}</h2>{body}</section>')
     slides.append(f'<section class="slide title"><h1>{s["thanks"]}</h1></section>')
 
     css = f"""
@@ -212,6 +223,16 @@ font-family:Fira Sans,Helvetica,Arial,sans-serif}}
 .topics{{display:grid;gap:1.2vw}}
 .topic{{background:#eef1f8;border-left:.5vw solid {ORANGE};padding:1vw 1.4vw;border-radius:4px;font-family:Fira Sans,Helvetica,Arial,sans-serif}}
 .tw{{font-size:2.2vw;color:var(--ink)}}.ts{{font-size:1.4vw;color:var(--muted);margin-top:.3em}}
+.dataset{{display:grid;grid-template-columns:58% 1fr;gap:3vw;align-items:start;font-family:Fira Sans,Helvetica,Arial,sans-serif}}
+.caption{{color:var(--muted);font-size:1.4vw;margin:0 0 .5em}}
+.export{{border-collapse:collapse;width:100%;font-size:1.6vw}}
+.export th{{text-align:left;color:var(--ink);border-top:2px solid var(--ink);border-bottom:1px solid var(--ink);padding:.35em .6em .35em 0}}
+.export td{{padding:.3em .6em .3em 0}}.export tbody tr:last-child td{{border-bottom:2px solid var(--ink)}}
+.export td:last-child,.export th:last-child{{text-align:center}}
+.record{{background:#eef1f8;border-radius:1vw;padding:1.4vw 1.8vw;font-size:1.5vw;color:var(--ink)}}
+.record h3{{margin:0 0 .5em;color:var(--ink);font-weight:bold;font-size:2vw}}
+.record h3::before{{content:"\\25CF";color:{ORANGE};margin-right:.5vw}}
+.record p{{margin:.4em 0;line-height:1.3}}
 .counter{{position:fixed;right:1.5vw;bottom:1vw;color:var(--muted);font-size:1.1vw;font-family:Fira Sans,Helvetica,Arial,sans-serif}}
 """
     js = """

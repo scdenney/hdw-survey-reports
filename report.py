@@ -256,6 +256,31 @@ def arm_table(rows: list[dict[str, str]], arm: dict, field: str
     return table
 
 
+
+def dataset_record(rows: list[dict[str, str]], survey: dict) -> list[str]:
+    """Fill the source-record lines of a ``dataset_view`` from the rows' own metadata.
+
+    Only counts and the collection window are used, never a response.
+    """
+    view = survey["dataset_view"]
+    times = []
+    for row in rows:
+        for col in ("StartDate", "RecordedDate"):
+            try:
+                times.append(datetime.strptime((row.get(col) or "").strip(), "%Y-%m-%d %H:%M:%S"))
+            except ValueError:
+                pass
+    field = survey.get("condition_field") or ""
+    arms = Counter((row.get(field) or "").strip() for row in rows)
+    values = {"n": len(rows), "date": "–", "start": "–", "end": "–",
+              "page_only": arms.get("page_only", 0),
+              "page_plus_metadata": arms.get("page_plus_metadata", 0)}
+    if times:
+        first, last = min(times), max(times)
+        values.update(date=f"{first.day} {first:%b %Y}", start=f"{first:%H:%M}", end=f"{last:%H:%M}")
+    return [line.format(**values) for line in view["record"]]
+
+
 def free_text(rows: list[dict[str, str]], tag: str) -> list[str]:
     texts = [t for t in ((row.get(tag) or "").strip() for row in rows) if t]
     random.SystemRandom().shuffle(texts)
@@ -481,6 +506,25 @@ def render_markdown(survey: dict, rows: list[dict[str, str]], fetched_at: str,
             parts = [f"{cells[c][0]} ({cells[c][1]:.0f}%)" for c in conditions]
             lines.append(f"| {_md_escape(label)} | " + " | ".join(parts) + " |")
         lines.append("")
+
+    view = survey.get("dataset_view")
+    if view:
+        lines.append(f"## {view['title']}")
+        lines.append("")
+        lines.append(f"_{view['caption']}_")
+        lines.append("")
+        lines.append("| " + " | ".join(view["headers"]) + " |")
+        lines.append("|" + "---|" * len(view["headers"]))
+        for example in view["rows"]:
+            lines.append("| " + " | ".join(_md_escape(cell) for cell in example) + " |")
+        lines.append("")
+        lines.append(view["names_note"])
+        lines.append("")
+        lines.append(f"**{view['record_title']}**")
+        lines.append("")
+        for line in dataset_record(rows, survey):
+            lines.append(_md_escape(line))
+            lines.append("")
 
     emit_placed(previous)
     for group in groups:
