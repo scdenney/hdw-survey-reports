@@ -579,27 +579,27 @@
       },
       {
         "tag": "Q2.D3",
-        "title": "Hashtag archive: which production history fits?",
+        "title": "Hashtag archive: how was it made?",
         "labels": [
-          "The platform generated posts; a researcher collected identifiers and deposited documented files",
-          "An archive scanned 5,680 printed tweets and used OCR to create identifiers",
+          "People posted tweets. A researcher collected their ID numbers and deposited the files with a description.",
+          "An archive scanned 5,680 printed tweets and used OCR to create ID numbers",
           "Participants were randomly assigned tweets in an experiment",
-          "The repository generated every post and its full text",
+          "The repository wrote every post and its full text",
           "Not sure yet"
         ],
-        "reveal": "The platform generated posts; a researcher collected identifiers and deposited documented files"
+        "reveal": "People posted tweets. A researcher collected their ID numbers and deposited the files with a description."
       },
       {
         "tag": "Q2.D4",
-        "title": "Hashtag archive: which claim is best supported?",
+        "title": "Hashtag archive: which claim does the record support?",
         "labels": [
-          "The deposited files contain 5,680 tweet IDs collected for this project",
-          "The archive preserves the complete text of 5,680 posts",
-          "The dataset contains every post ever published with the hashtag",
-          "Every identified post can still be retrieved from the platform",
+          "The files contain 5,680 tweet IDs, collected on 22 and 23 September 2018",
+          "The archive keeps the full text of 5,680 posts",
+          "The files contain every post ever published with the hashtag",
+          "Every post in the files can still be read on Twitter",
           "Not sure yet"
         ],
-        "reveal": "The deposited files contain 5,680 tweet IDs collected for this project"
+        "reveal": "The files contain 5,680 tweet IDs, collected on 22 and 23 September 2018"
       }
     ],
     "free_text": [
