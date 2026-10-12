@@ -1350,27 +1350,27 @@
       },
       {
         "tag": "Q2.D3",
-        "title": "Hashtagarchief: welke ontstaansgeschiedenis past?",
+        "title": "Hashtagarchief: hoe is het gemaakt?",
         "labels": [
-          "Het platform genereerde berichten; een onderzoeker verzamelde ID's en deponeerde gedocumenteerde bestanden",
-          "Een archief scande 5.680 gedrukte tweets en maakte met OCR ID's aan",
+          "Mensen plaatsten tweets. Een onderzoeker verzamelde hun ID-nummers en plaatste de bestanden met een beschrijving in een repository.",
+          "Een archief scande 5.680 gedrukte tweets en maakte met OCR ID-nummers aan",
           "Deelnemers kregen in een experiment willekeurig tweets toegewezen",
-          "De repository genereerde elk bericht en de volledige tekst ervan",
+          "De repository schreef elk bericht en de volledige tekst ervan",
           "Weet ik nog niet"
         ],
-        "reveal": "Het platform genereerde berichten; een onderzoeker verzamelde ID's en deponeerde gedocumenteerde bestanden"
+        "reveal": "Mensen plaatsten tweets. Een onderzoeker verzamelde hun ID-nummers en plaatste de bestanden met een beschrijving in een repository."
       },
       {
         "tag": "Q2.D4",
-        "title": "Hashtagarchief: welke bewering wordt het best onderbouwd?",
+        "title": "Hashtagarchief: welke bewering onderbouwt de beschrijving?",
         "labels": [
-          "De gedeponeerde bestanden bevatten 5.680 tweet-ID's die voor dit project zijn verzameld",
+          "De bestanden bevatten 5.680 tweet-ID's, verzameld op 22 en 23 september 2018",
           "Het archief bewaart de volledige tekst van 5.680 berichten",
-          "De dataset bevat elk bericht dat ooit met de hashtag is gepubliceerd",
-          "Elk geïdentificeerd bericht is nog steeds via het platform op te halen",
+          "De bestanden bevatten elk bericht dat ooit met de hashtag is geplaatst",
+          "Elk bericht in de bestanden is nog te lezen op Twitter",
           "Weet ik nog niet"
         ],
-        "reveal": "De gedeponeerde bestanden bevatten 5.680 tweet-ID's die voor dit project zijn verzameld"
+        "reveal": "De bestanden bevatten 5.680 tweet-ID's, verzameld op 22 en 23 september 2018"
       }
     ],
     "free_text": [
