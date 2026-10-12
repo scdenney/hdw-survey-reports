@@ -156,7 +156,8 @@ def render_class_html(survey: dict, rows: list[dict[str, str]], fetched_at: str)
             conds = list(arm["columns"].keys())
             table = report.arm_table(rows, arm, field)
             arm_n = Counter(row.get(field, "") for row in rows)
-            legend = "".join(f'<span class="key"><i style="--c:{c}"></i>{html.escape(cond.replace("_", " "))}'
+            names = survey.get("condition_labels", {})
+            legend = "".join(f'<span class="key"><i style="--c:{c}"></i>{html.escape(names.get(cond, cond.replace("_", " ")))}'
                              f' (n={arm_n.get(cond, 0)})</span>'
                              for cond, c in zip(conds, (BLUE, ORANGE)))
             rowsh = []
@@ -165,8 +166,8 @@ def render_class_html(survey: dict, rows: list[dict[str, str]], fetched_at: str)
                 for cond, c in zip(conds, (BLUE, ORANGE)):
                     cn, cp = cells[cond]
                     suppressed = 0 < cn < MIN_CELL
-                    shown = "&lt;5" if suppressed else f"{cp:.0f}%"
-                    width = 4.0 if suppressed else (max(cp, 1.5) if cn else 0)
+                    shown = '<span class="few">&lt;5</span>' if suppressed else (f"{cp:.0f}%" if cn else "")
+                    width = 2.0 if suppressed else (max(cp, 1.5) if cn else 0)
                     bars += (f'<div class="track"><div class="bar" style="width:{width:.1f}%;--c:{c}"></div>'
                              f'<span class="val">{shown}</span></div>')
                 rowsh.append(f'<div class="row"><div class="label">{html.escape(label)}</div>'
@@ -205,8 +206,9 @@ font-family:Fira Sans,Helvetica,Arial,sans-serif}}
 .slide[data-reveal="1"]:not(.revealed) .bar.reveal{{background:var(--c)}}
 .val{{position:absolute;left:100%;top:0;margin-left:.6vw;line-height:2.3vw;color:var(--muted);white-space:nowrap}}
 .track{{width:calc(100% - 9vw)}}
-.pair{{display:grid;gap:.3vw}}.pair .track{{height:1.4vw}}.pair .val{{line-height:1.4vw}}
-.row:has(.pair){{margin:.3em 0;font-size:1.6vw}}
+.pair{{display:grid;gap:.35vw}}.pair .track{{height:1.75vw}}.pair .val{{line-height:1.75vw}}
+.row:has(.pair){{margin:.8em 0;font-size:1.75vw}}
+.few{{color:#a3a7b0;font-size:.85em}}
 .stack{{display:flex;height:2.6vw;border-radius:4px;overflow:hidden;background:var(--grid)}}
 .seg{{background:var(--c);color:#fff;font-size:1.3vw;line-height:2.6vw;padding-left:.5vw;white-space:nowrap;overflow:hidden}}
 .row:has(.stack){{grid-template-columns:45% 1fr;font-size:1.6vw;margin:.45em 0}}

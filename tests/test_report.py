@@ -132,7 +132,7 @@ class ClassViewTests(unittest.TestCase):
         rows = [{"metadata_condition": "page_only"}] * 6 + [{"metadata_condition": "page_plus_metadata"}] * 7
         page = classview.render_class_html(survey, rows, "test")
         self.assertIn("page only (n=6)", page)
-        self.assertIn("page plus metadata (n=7)", page)
+        self.assertIn("page + source record (n=7)", page)
 
     def test_dataset_view_uses_made_up_rows_and_live_counts_only(self):
         import classview

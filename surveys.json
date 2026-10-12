@@ -545,6 +545,10 @@
         "Made by the teaching team. Each of you saw one of two versions, chosen at random: {page_only} page only, {page_plus_metadata} page plus record.",
         "{n} finished responses, linked to your names until the end of the course."
       ]
+    },
+    "condition_labels": {
+      "page_only": "page only",
+      "page_plus_metadata": "page + source record"
     }
   },
   "2/en/application": {
@@ -1320,6 +1324,10 @@
         "Gemaakt door het docententeam. Ieder van jullie zag een van twee versies, willekeurig toegewezen: {page_only} alleen pagina, {page_plus_metadata} pagina met bronbeschrijving.",
         "{n} afgeronde antwoorden, gekoppeld aan jullie naam tot het einde van de cursus."
       ]
+    },
+    "condition_labels": {
+      "page_only": "alleen pagina",
+      "page_plus_metadata": "pagina + bronbeschrijving"
     }
   },
   "2/nl/application": {
